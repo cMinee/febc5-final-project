@@ -6,7 +6,7 @@
 import { useState } from "react"; // ใช้ useState สำหรับจัดการ state ภายในคอมโพเนนต์
 import Image from "next/image"; // mage optimization ของ Next.js
 import Link from "next/link"; // ใช้สำหรับสร้างลิงก์ไปยังหน้าบทความ
-import { onlineCourses } from "../lib/blog-posts"; // นำเข้าข้อมูล onlineCourses (สมมุติว่าเก็บข้อมูลบทความในที่เดียว)
+import { onlineCourses } from "../lib/online-course"; // นำเข้าข้อมูล onlineCourses (สมมุติว่าเก็บข้อมูลบทความในที่เดียว)
 
 export default function BlogCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0); // state สำหรับเก็บ index ของโพสต์ที่กำลังแสดง
@@ -33,16 +33,16 @@ export default function BlogCarousel() {
             index === currentSlide ? "opacity-100" : "opacity-0" // ถ้าโพสต์ปัจจุบันตรงกับ state จะมีค่า opacity 100%
           }`}
         >
-          <Image
+          {/* <Image
             src={post.featureImage} // URL ของรูปภาพโพสต
-            alt={post.title}
+            alt={post.name}
             layout="fill"
             objectFit="cover"
-          />
+          /> */}
            {/* ส่วนเนื้อหาโพสต์ที่แสดงทับอยู่บนรูปภาพ */}
           <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
-            <h2 className="text-2xl font-bold mb-2">{post.title}</h2>
-            <p className="mb-2">{post.excerpt}</p> {/* คำโปรยของโพสต์ */}
+            <h2 className="text-2xl font-bold mb-2">{post.name}</h2>
+            <p className="mb-2">{post.description}</p> {/* คำโปรยของโพสต์ */}
             <Link
               href={`/blog/${post.id}`} // ลิงก์ไปยังหน้ารายละเอียดของโพสต
               className="text-blue-300 hover:underline"
