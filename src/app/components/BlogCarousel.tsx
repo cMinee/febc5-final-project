@@ -25,7 +25,7 @@ export default function BlogCarousel() {
   };
 
   return (
-    <div className="relative w-full h-96 overflow-hidden">
+    <div className="relative w-full h-96 overflow-hidden rounded-xl">
       {highlightedPosts.map((post, index) => (
         <div
           key={post.id} // กำหนด key เพื่อป้องกันปัญหาเกี่ยวกับการเรนเดอร
@@ -33,12 +33,12 @@ export default function BlogCarousel() {
             index === currentSlide ? "opacity-100" : "opacity-0" // ถ้าโพสต์ปัจจุบันตรงกับ state จะมีค่า opacity 100%
           }`}
         >
-          {/* <Image
-            src={post.featureImage} // URL ของรูปภาพโพสต
+          <Image
+            src={post.img} // URL ของรูปภาพโพสต
             alt={post.name}
             layout="fill"
             objectFit="cover"
-          /> */}
+          />
            {/* ส่วนเนื้อหาโพสต์ที่แสดงทับอยู่บนรูปภาพ */}
           <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
             <h2 className="text-2xl font-bold mb-2">{post.name}</h2>

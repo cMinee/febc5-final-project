@@ -1,22 +1,56 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 
 export default function ProfileCard() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     if (isLoggedIn) {
         return (
-            <div className="flex items-center space-x-2">
-                <img 
-                    src="https://scontent.fbkk5-1.fna.fbcdn.net/v/t39.30808-6/449498249_3043511642457570_1350321673615048271_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=3H_zkkaa6tgQ7kNvgEVyNHf&_nc_oc=Adgk6P7IlWIxu8IM0RDDx2fTNJPClfE4ojDN2K_kJiqqXXmElrgxKt7-X3Qae1gkVBY&_nc_zt=23&_nc_ht=scontent.fbkk5-1.fna&_nc_gid=AiOq9RsP64yOgCli_p8L4-R&oh=00_AYApqou9PdpDAb5Z2v2zZxrsYedDNdQPyrngrsNy1MfHvA&oe=67CD85E1" 
-                    alt="Profile" 
-                    className="w-12 h-12 rounded-full mr-4" 
-                />
-                <span className="text-lg font-semibold">John Doe</span>
-                <button 
-                    onClick={() => setIsLoggedIn(false)}
-                    className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded text-sm">Logout</button>
+            <div className="flex items-center space-x-2 ml-3">
+                <Menu as="div" className="relative ml-3">
+                    <div>
+                        <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                            <span className="absolute -inset-1.5" />
+                            <span className="sr-only">Open user menu</span>
+                            <img
+                                alt=""
+                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                className="size-8 rounded-full"
+                            />
+                        </MenuButton>
+                    </div>
+                    <MenuItems
+                        transition
+                        className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                    >
+                        <MenuItem>
+                        <a
+                            href="#"
+                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
+                        >
+                            Your Profile
+                        </a>
+                        </MenuItem>
+                        <MenuItem>
+                        <a
+                            href="#"
+                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
+                        >
+                            Settings
+                        </a>
+                        </MenuItem>
+                        <MenuItem>
+                        <button
+                            onClick={() => setIsLoggedIn(false)}
+                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
+                        >
+                            Sign out
+                        </button>
+                        </MenuItem>
+                    </MenuItems>
+                </Menu>
             </div>
         );
     }
