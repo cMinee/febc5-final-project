@@ -33,11 +33,14 @@ export default function BlogCarousel() {
             index === currentSlide ? "opacity-100" : "opacity-0" // ถ้าโพสต์ปัจจุบันตรงกับ state จะมีค่า opacity 100%
           }`}
         >
+          {/* หากรูปภาพนี้อยู่ด้านบนของหน้าจอและเป็นภาพสำคัญ (เช่น Hero Image) ให้เพิ่ม priority เพื่อให้โหลดเร็วขึ้น: */}
+          {/* ถ้ารูปภาพอยู่ล่างๆ หน้า (ต้อง Scroll ถึงจะเห็น) สามารถ ละเว้น priority ได้ (ไม่ต้องแก้ไขอะไร) แต่ถ้ายังต้องการปรับปรุงประสิทธิภาพ สามารถเพิ่ม loading="lazy"*/}
           <Image
             src={post.img} // URL ของรูปภาพโพสต
             alt={post.name}
-            layout="fill"
-            objectFit="cover"
+            fill
+            className="object-cover"
+            priority
           />
            {/* ส่วนเนื้อหาโพสต์ที่แสดงทับอยู่บนรูปภาพ */}
           <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">

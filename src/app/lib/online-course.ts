@@ -6,7 +6,7 @@ export const onlineCourses = [
         description: "Learn the basics of Python, a popular programming language for both beginners and experts.",
         id: 1,
         name: "Intro to Python",
-        img: "https://downloads.course-source.net/default/catalogue/outlines/75005/Learn%20Python%20for%20Beginners.jpg"
+        img: "https://articles.geekster.in/wp-content/uploads/2024/03/7-4.png"
     },
     {
         category: "Web Development",
