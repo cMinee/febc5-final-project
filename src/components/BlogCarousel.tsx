@@ -6,7 +6,7 @@
 import { useState } from "react"; // ใช้ useState สำหรับจัดการ state ภายในคอมโพเนนต์
 import Image from "next/image"; // mage optimization ของ Next.js
 import Link from "next/link"; // ใช้สำหรับสร้างลิงก์ไปยังหน้าบทความ
-import { onlineCourses } from "../lib/online-course"; // นำเข้าข้อมูล onlineCourses (สมมุติว่าเก็บข้อมูลบทความในที่เดียว)
+import { onlineCourses } from "../app/lib/online-course"; // นำเข้าข้อมูล onlineCourses (สมมุติว่าเก็บข้อมูลบทความในที่เดียว)
 
 export default function BlogCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0); // state สำหรับเก็บ index ของโพสต์ที่กำลังแสดง

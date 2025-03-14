@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { onlineCourses } from "../lib/online-course"; // นำเข้าข้อมูล onlineCourses (สมมุติว่าเก็บข้อมูลบทความในที่เดียว)
+import { onlineCourses } from "../app/lib/online-course"; // นำเข้าข้อมูล onlineCourses (สมมุติว่าเก็บข้อมูลบทความในที่เดียว)
 import Image from "next/image";
 
 export default function CourseItemLists() {
     const [searchQuery, setSearchQuery] = useState(""); // สร้าง state สำหรับค้นหา
+    const [selectedCategory, setSelectedCategory] = useState(""); // สร้าง state สำหรับเลือกหมวดหมู่
+
 
     const filteredCourses = onlineCourses.filter((course) =>
         (course.name?.toLowerCase() || "").includes(searchQuery.toLowerCase())
@@ -16,6 +18,15 @@ export default function CourseItemLists() {
         const regex = new RegExp(`(${searchQuery})`, "gi");
         return text.replace(regex, `<span class="bg-yellow-200">$1</span>`);
     };
+
+    const handleCategoryChange = (category: string) => {
+        // ถ้ากด Category เดิม → รีเซ็ตเป็นทั้งหมด
+        setSelectedCategory(selectedCategory === category ? "" : category);
+    };
+
+    const selectedCourses = selectedCategory
+        ? onlineCourses.filter(course => course.category === selectedCategory)
+        : onlineCourses;
 
     return (
         <div className="container mx-auto py-8">
@@ -48,19 +59,24 @@ export default function CourseItemLists() {
 
             {/* start category course */}
             <div className="flex flex-wrap justify-start mb-8">
-                {onlineCourses.map((course) => (
-                    <div key={course.id} className="flex items-center mr-4">
-                        <a href="#" className="text-center text-gray-600 bg-white px-3 py-1 rounded-full my-2">{course.category}</a>
-                    </div>
-                ))}
+                {Array.from(new Set(onlineCourses.map(course => course.category))) // ดึงค่า category ที่ไม่ซ้ำกัน
+                    .map((category) => (
+                        <button
+                            key={category}
+                            onClick={() => handleCategoryChange(category)}
+                            className={`text-center px-3 py-1 rounded-full my-2 mr-4 border cursor-pointer
+                                ${selectedCategory === category ? "bg-white text-gray-600 [box-shadow:0_0_10px_#00ff00,0_0_20px_#00ff00]" : "bg-white text-gray-600"}`}
+                            >{category}
+                        </button>
+                    ))}
             </div>
 
             {/* show course item */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {onlineCourses.map((course) => (
-                    <div key={course.id} className="bg-white rounded-lg shadow-md p-4">
+                {selectedCourses.map((course) => (
+                    <div key={course.id} className="bg-white rounded-lg shadow-md p-4" onClick={() => window.location.href = `/course/${course.id}`}>
                         <Image src={course.img} alt={course.name} width={600} height={400} className="w-full h-48 object-cover rounded-t-lg" />
-                        <h2 className="text-xl font-semibold mt-2">{course.name}</h2>
+                        <h2 className="text-xl font-semibold mt-2 text-gray-600">{course.name}</h2>
                         <p className="text-gray-600">{course.description}</p>
                     </div>
                 ))}
