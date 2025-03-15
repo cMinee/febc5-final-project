@@ -74,7 +74,7 @@ export default function CourseItemLists() {
             {/* show course item */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {selectedCourses.map((course) => (
-                    <div key={course.id} className="bg-white rounded-lg shadow-md p-4" onClick={() => window.location.href = `/course/${course.id}`}>
+                    <div key={course.id} className="bg-white rounded-lg shadow-md p-4 cursor-pointer" onClick={() => window.location.href = `/courses/${course.id}`}>
                         <Image src={course.img} alt={course.name} width={600} height={400} className="w-full h-48 object-cover rounded-t-lg" />
                         <h2 className="text-xl font-semibold mt-2 text-gray-600">{course.name}</h2>
                         <p className="text-gray-600">{course.description}</p>
