@@ -3,8 +3,11 @@
 import React, { useState } from 'react';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 
+import { signIn, signOut, useSession } from "next-auth/react";
+
 export default function ProfileCard() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // const { data: session } = useSession();
 
     if (isLoggedIn) {
         return (

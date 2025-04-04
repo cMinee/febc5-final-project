@@ -55,7 +55,7 @@ export const courseDetails = [
     subSections: [
       {
         id: 1,
-        title: "Callback, Promise, Async",
+        title: "Callback Promise Async",
         unlocked: true,
         videoUrl: "https://www.youtube.com/embed/PoRJizFvM7s",
       },
@@ -73,13 +73,13 @@ export const courseDetails = [
       },
       {
         id: 4,
-        title: "ES6+ Features",
+        title: "ES6 Features",
         unlocked: false,
         videoUrl: "https://www.youtube.com/embed/NCwa_xi0Uuc",
       },
       {
         id: 5,
-        title: "Event Loop & Asynchronous",
+        title: "Event Loop and Asynchronous",
         unlocked: false,
         videoUrl: "https://www.youtube.com/embed/8aGhZQkoFbQ",
       },
@@ -118,7 +118,7 @@ export const courseDetails = [
       },
       {
         id: 4,
-        title: "Train/Test Split และ Evaluation",
+        title: "Train Test Split และ Evaluation",
         unlocked: false,
         videoUrl: "https://www.youtube.com/embed/EoYXL3z33e4",
       },
