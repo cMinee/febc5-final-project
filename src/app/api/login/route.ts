@@ -1,17 +1,15 @@
-import { cookies } from "next/headers";
+// src/app/api/login/route.ts
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const { userId } = await req.json();
 
   if (!userId) {
-    return new Response("Missing userId", { status: 400 });
+    return NextResponse.json({ error: "Missing userId" }, { status: 400 });
   }
 
-  (await cookies()).set("userId", userId, {
-    httpOnly: true,
-    path: "/",
-    maxAge: 60 * 60 * 24 * 7, // 7 days
-  });
+  // You can log/save or mock auth here
+  console.log("✅ Logged in:", userId);
 
-  return Response.json({ success: true, userId });
+  return NextResponse.json({ success: true, userId });
 }

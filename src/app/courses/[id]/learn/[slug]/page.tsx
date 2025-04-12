@@ -33,13 +33,37 @@ export default function LearnPage() {
 
   const next = course.subSections[currentIndex + 1];
 
+  async function handleComplete() {
+    try {
+      const res = await fetch("/api/progress", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: 1, // mock user ID
+          courseId: courseId,
+          subSectionId: current.id,
+        }),
+      });
+      if (!res.ok) throw new Error("Failed to save progress");
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   return (
     <div className="flex min-h-screen text-white">
       {/* MAIN CONTENT */}
       <div className="flex-1 p-6">
         <h1 className="text-3xl font-bold mb-2">{current.title}</h1>
         <p className="mb-4 text-gray-300">{mainCourse.name}</p>
-        <video src={current.videoUrl} controls className="w-full h-96 rounded-md" />
+
+        <video
+          controls
+          className="w-full rounded-md"
+          onEnded={handleComplete}
+        >
+          <source src={current.videoUrl} type="video/mp4" />
+        </video>
 
         {next && next.unlocked && (
           <div className="mt-6">

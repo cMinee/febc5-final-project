@@ -152,7 +152,7 @@ export const courseDetails = [
       {
         id: 2,
         title: "Data Wrangling By dplyr",
-        unlocked: false,
+        unlocked: true,
         videoUrl: "https://www.youtube.com/embed/7T1D6RMbJq8",
       },
       {

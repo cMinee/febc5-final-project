@@ -1,13 +1,44 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 
-import { signIn, signOut, useSession } from "next-auth/react";
+// import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function ProfileCard() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    // const { data: session } = useSession();
+    const [userId, setUserId] = useState<number | null>(null);
+
+    useEffect(() => {
+        // โหลดจาก localStorage (mock session)
+        const storedUser = localStorage.getItem("userId");
+        if (storedUser) {
+            setIsLoggedIn(true);
+            setUserId(Number(storedUser));
+        }
+    }, []);
+
+    const handleLogin = async () => {
+        const mockUserId = 1;
+
+        const res = await fetch("/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId: mockUserId }),
+        });
+
+        if (res.ok) {
+            setIsLoggedIn(true);
+            setUserId(mockUserId);
+            localStorage.setItem("userId", String(mockUserId));
+        }
+    };
+
+    const handleLogout = () => {
+        setIsLoggedIn(false);
+        setUserId(null);
+        localStorage.removeItem("userId");
+    };
 
     if (isLoggedIn) {
         return (
@@ -45,9 +76,15 @@ export default function ProfileCard() {
                         </a>
                         </MenuItem>
                         <MenuItem>
-                        <button
+                        {/* <button
                             onClick={() => setIsLoggedIn(false)}
                             className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
+                        >
+                            Sign out
+                        </button> */}
+                        <button
+                            onClick={handleLogout}
+                            className="block px-4 py-2 text-sm text-gray-700 w-full text-left"
                         >
                             Sign out
                         </button>
@@ -58,7 +95,13 @@ export default function ProfileCard() {
         );
     }
     return (
-        <button onClick={() => setIsLoggedIn(true)} className="bg-blue-500 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded">
+        // <button onClick={() => setIsLoggedIn(true)} className="bg-blue-500 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded">
+        //     Login
+        // </button>
+        <button
+            onClick={handleLogin}
+            className="bg-blue-500 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded"
+        >
             Login
         </button>
     );  
