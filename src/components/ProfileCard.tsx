@@ -10,34 +10,33 @@ export default function ProfileCard() {
     const [userId, setUserId] = useState<number | null>(null);
 
     useEffect(() => {
-        // โหลดจาก localStorage (mock session)
-        const storedUser = localStorage.getItem("userId");
-        if (storedUser) {
-            setIsLoggedIn(true);
-            setUserId(Number(storedUser));
-        }
+        fetch("/api/me")
+          .then(res => res.ok ? res.json() : null)
+          .then(data => {
+            if (data?.userId) {
+              setIsLoggedIn(true);
+              setUserId(data.userId);
+            }
+          })
+          .catch(() => setIsLoggedIn(false)); 
     }, []);
 
     const handleLogin = async () => {
-        const mockUserId = 1;
-
         const res = await fetch("/api/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userId: mockUserId }),
+            body: JSON.stringify({ userId: 1 }), // สมมุติ หรือใช้ form
         });
-
         if (res.ok) {
             setIsLoggedIn(true);
-            setUserId(mockUserId);
-            localStorage.setItem("userId", String(mockUserId));
+            setUserId(1);
         }
     };
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        await fetch("/api/logout", { method: "POST" }); // 👈 หรือใช้ clear cookie จาก client
         setIsLoggedIn(false);
         setUserId(null);
-        localStorage.removeItem("userId");
     };
 
     if (isLoggedIn) {
@@ -68,14 +67,6 @@ export default function ProfileCard() {
                         </a>
                         </MenuItem>
                         <MenuItem>
-                        <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
-                        >
-                            Settings
-                        </a>
-                        </MenuItem>
-                        <MenuItem>
                         {/* <button
                             onClick={() => setIsLoggedIn(false)}
                             className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
@@ -95,9 +86,6 @@ export default function ProfileCard() {
         );
     }
     return (
-        // <button onClick={() => setIsLoggedIn(true)} className="bg-blue-500 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded">
-        //     Login
-        // </button>
         <button
             onClick={handleLogin}
             className="bg-blue-500 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded"
