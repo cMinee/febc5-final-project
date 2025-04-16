@@ -8,18 +8,10 @@ datasource db {
 }
 
 model User {
-  id       String   @id @default(auto()) @map("_id")
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
   email    String   @unique
   password String
-  name     String?
-  progress Progress[]
-}
+  name     String
 
-model Progress {
-  id           String   @id @default(auto()) @map("_id")
-  userId       String
-  courseId     Int
-  subSectionId Int
-  completedAt  DateTime @default(now())
-  user         User     @relation(fields: [userId], references: [id])
+  @@map("users")
 }
