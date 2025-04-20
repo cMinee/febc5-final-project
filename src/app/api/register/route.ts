@@ -5,8 +5,8 @@ import prisma from "../../lib/prisma"
 export async function POST(req: NextRequest) {
     console.log("🚀 REGISTER API START")
     try {
-        const body = await req.json()
-        const { email, password, name } = body
+      const body = await req.json()
+      const { email, password, name } = body
   
       if (!email || !password || !name) {
         return NextResponse.json({ error: "ข้อมูลไม่ครบ" }, { status: 400 })
@@ -27,7 +27,11 @@ export async function POST(req: NextRequest) {
         },
       })
   
-      console.log("✅ new user created:", newUser)
+      console.log("✅ new user created:")
+
+      if (!newUser || typeof newUser !== "object") {
+        console.error("❌ newUser is not a valid object:", newUser)
+      }
   
       return NextResponse.json({ message: "ลงทะเบียนสำเร็จ", user: newUser })
     } catch (err) {
