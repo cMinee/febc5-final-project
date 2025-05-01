@@ -9,7 +9,7 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("")
   const [name, setName] = useState("")
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
     console.log("📨 Handle Submit เริ่มทำงาน")
 
@@ -20,17 +20,17 @@ export default function RegisterPage() {
     })
 
     if (res.ok) {
-      alert("สมัครสมาชิกสำเร็จ ✅")
+      alert("Register Success ✅")
       router.push("/pages/login")
     } else {
-      alert("เกิดข้อผิดพลาดในการสมัคร ❌")
+      alert("Register failed ❌")
       const errorData = await res.json()
       console.error("❌ REGISTER ERROR:", errorData)
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto mt-20 text-white">
+    <form onSubmit={handleRegister} className="space-y-4 max-w-md mx-auto mt-20 text-white">
       <h2 className="text-2xl font-bold">สมัครสมาชิก</h2>
       {/* name */}
       <input

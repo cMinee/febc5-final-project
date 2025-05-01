@@ -1,7 +1,7 @@
 // ProfileCard.tsx
 'use client'
 
-import { signIn, signOut, useSession } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 
 export default function ProfileCard() {
@@ -9,13 +9,22 @@ export default function ProfileCard() {
   const router = useRouter()
 
   const handleLogin = () => {
-    router.push("/pages/login") // พาไปหน้า login
+    router.push("/pages/login") // go to login
+  }
+
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: "/pages/login" }) // redirect to home page after logout
   }
 
   return (
     <div>
       {session ? (
-        <div>👋 ยินดีต้อนรับ, {session.user?.name}</div>
+        <div className="flex items-center space-x-2">
+          <span className="text-white">{session.user?.name}</span>
+          <button
+            className="bg-red-500 text-white px-3 py-1 rounded"
+            onClick={handleLogout}>Logout</button>
+        </div>
       ) : (
         <button onClick={handleLogin}>🔐 Login</button>
       )}

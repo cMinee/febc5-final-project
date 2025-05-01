@@ -18,16 +18,16 @@ export default function LoginPage() {
     })
 
     if (res?.ok) {
-      router.push("/") // กลับหน้าแรกเมื่อ login สำเร็จ
+      router.push("/") // return home page when login success
     } else {
-      alert("เข้าสู่ระบบไม่สำเร็จ")
+      alert("sign in failed")
     }
   }
 
   return (
     <div>
       <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto mt-20 text-white">
-        <h2 className="text-2xl font-bold">เข้าสู่ระบบ</h2>
+        <h2 className="text-2xl font-bold">Sign In</h2>
         <input
           type="email"
           placeholder="Email"
@@ -42,11 +42,11 @@ export default function LoginPage() {
           onChange={e => setPassword(e.target.value)}
           className="w-full p-2 rounded bg-gray-800"
         />
-        <button type="submit" className="w-full bg-blue-500 p-2 rounded">เข้าสู่ระบบ</button>
+        <button type="submit" className="w-full bg-blue-500 p-2 rounded">Sign in</button>
 
       </form>
       <br />
-      <button onClick={() => router.push("/pages/register")} className="w-full bg-green-500 p-2 rounded">สมัครสมาชิก</button>
+      <button onClick={() => router.push("/pages/register")} className="w-50 bg-green-500 p-2 rounded">Register</button>
     </div>
   )
 }
