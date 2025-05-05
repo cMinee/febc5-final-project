@@ -45,12 +45,27 @@ const handler = NextAuth({
           id: user.id,
           name: user.name,
           email: user.email,
+          role: user.role, 
         };
       },
     }),
   ],
   session: {
     strategy: "jwt",  // ใช้ JWT แทน session ธรรมดา
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role // 👈 เพิ่ม role ลงใน token
+      }
+      return token
+    },
+    async session({ session, token }) {
+      if (token && session.user) {
+        session.user.role = token.role // 👈 ให้ฝั่ง frontend ใช้ role ได้
+      }
+      return session
+    }
   },
   secret: process.env.NEXTAUTH_SECRET, // ต้องมีใน .env
 });

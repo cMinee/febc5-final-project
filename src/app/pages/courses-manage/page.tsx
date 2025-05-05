@@ -1,18 +1,10 @@
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import DeleteDialog from "@/components/DeleteDialog";
 
 export default function CoursesManagePage() {
-  const router = useRouter();
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    fetch("/api/courses-manage")
-      .then((res) => res.json())
-      .then((data) => setCourses(data))
-      .finally(() => setIsLoading(false));
-  }, []);
 
   return (
     <div>
@@ -48,7 +40,7 @@ export default function CoursesManagePage() {
                     Edit
                   </button>
                   <button
-                    className="btn" onClick={()=>document.getElementById('my_modal_5').showModal()}
+                    className="btn" onClick={()=>DeleteDialog.showModal()}
                   >
                     Delete
                   </button>

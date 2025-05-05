@@ -1,28 +1,43 @@
 "use client"
 
-import { signIn } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export default function LoginPage() {
   const router = useRouter()
+  const { data: session, status } = useSession()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsLoggedIn(true)
     const res = await signIn("credentials", {
       redirect: false,
       email,
       password
     })
 
-    if (res?.ok) {
-      router.push("/") // return home page when login success
-    } else {
-      alert("sign in failed")
+    if (!res?.ok) {
+      alert("Sign in failed ❌")
+      setIsLoggedIn(false)
     }
   }
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      const role = session?.user?.role
+      if (role === "admin") {
+        console.log("🚀 ADMIN LOGIN SUCCESS")
+        router.push("/courses-manage")
+      } else {
+        console.log("🚀 USER LOGIN SUCCESS")
+        router.push("/")
+      }
+    }
+  }, [status, session, router])
 
   return (
     <div>
@@ -42,11 +57,11 @@ export default function LoginPage() {
           onChange={e => setPassword(e.target.value)}
           className="w-full p-2 rounded bg-gray-800"
         />
-        <button type="submit" className="w-full bg-blue-500 p-2 rounded">Sign in</button>
+        <button type="submit" className="w-full bg-blue-500 p-2 rounded" disabled={isLoggedIn}>{isLoggedIn ? "Signing in..." : "Sign in"}</button>
 
       </form>
       <br />
-      <button onClick={() => router.push("/pages/register")} className="w-50 bg-green-500 p-2 rounded">Register</button>
+      <button onClick={() => router.push("/pages/register")} className="w-50 mx-auto justify-center bg-green-500 p-2 rounded">Register</button>
     </div>
   )
 }

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 
 export default function ProfileCard() {
   const { data: session } = useSession()
+  console.log("🧠 Session:", session)
   const router = useRouter()
 
   const handleLogin = () => {
@@ -20,7 +21,7 @@ export default function ProfileCard() {
     <div>
       {session ? (
         <div className="flex items-center space-x-2">
-          <span className="text-white">{session.user?.name}</span>
+          <span className="text-white">{session.user && session.user.name}</span>
           <button
             className="bg-red-500 text-white px-3 py-1 rounded"
             onClick={handleLogout}>Logout</button>
