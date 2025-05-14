@@ -16,3 +16,26 @@ model User {
 
   @@map("users")
 }
+
+model Course {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  price       Float
+  category    String
+  img         String
+  lessons     Lesson[]  @relation("CourseLessons")
+
+  @@map("courses")
+}
+
+model Lesson {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  content     String
+  videoUrl    String?  // optional video link
+  courseId    String   @db.ObjectId
+  courses      Course  @relation("CourseLessons", fields: [courseId], references: [id])
+
+  @@map("lessons")
+}

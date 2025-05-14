@@ -31,7 +31,7 @@ export default function LoginPage() {
       const role = session?.user?.role
       if (role === "admin") {
         console.log("🚀 ADMIN LOGIN SUCCESS")
-        router.push("/courses-manage")
+        router.push("/pages/admin/courses")
       } else {
         console.log("🚀 USER LOGIN SUCCESS")
         router.push("/")
