@@ -3,7 +3,8 @@ import prisma from '@/app/lib/prisma';
 
 export async function GET() {
   try {
-    const courses = await prisma.course.findMany(); 
+    const courses = await prisma.course.findMany();
+    console.log("this get");
     return NextResponse.json(courses);
   } catch (error) {
     console.error('Error fetching courses:', error);
@@ -18,6 +19,7 @@ export async function POST(req: Request) {
     const newCourse = await prisma.course.create({
         data: body
     })
+    console.log("this post");
     return NextResponse.json(newCourse);
   } catch (error) {
     console.error('Error creating course:', error);

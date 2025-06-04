@@ -1,13 +1,32 @@
 "use client";
 
-import { useState } from "react";
-import { onlineCourses } from "../app/lib/online-course"; // นำเข้าข้อมูล onlineCourses (สมมุติว่าเก็บข้อมูลบทความในที่เดียว)
+import { useState, useEffect } from "react";
+// import { onlineCourses } from "../app/lib/online-course"; // นำเข้าข้อมูล onlineCourses (สมมุติว่าเก็บข้อมูลบทความในที่เดียว)
 import Image from "next/image";
+import { Course } from "@prisma/client";
 
 export default function CourseItemLists() {
     const [searchQuery, setSearchQuery] = useState(""); // สร้าง state สำหรับค้นหา
     const [selectedCategory, setSelectedCategory] = useState(""); // สร้าง state สำหรับเลือกหมวดหมู่
+    const [isLoading, setIsLoading] = useState(false); // สร้าง state สำหรับการโหลดข้อมูล
+    const [onlineCourses, setOnlineCourses] = useState<Course[]>([]); // สร้าง state สำหรับเก็บข้อมูลคอร์สออนไลน์
 
+    const fetchCourses = async () => {
+        setIsLoading(true);
+        try {
+            // สมมุติว่าเรากำลังดึงข้อมูลจาก API
+            const response = await fetch("/api/admin/courses");
+            const data = await response.json();
+            setOnlineCourses(data);
+            setIsLoading(false);
+        } catch (error) {
+            console.error("Error fetching courses:", error);
+            setIsLoading(false);
+        }
+    }
+    useEffect(() => {
+        fetchCourses();
+    }, []);
 
     const filteredCourses = onlineCourses.filter((course) =>
         (course.name?.toLowerCase() || "").includes(searchQuery.toLowerCase())
@@ -72,15 +91,19 @@ export default function CourseItemLists() {
             </div>
 
             {/* show course item */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {selectedCourses.map((course) => (
-                    <div key={course.id} className="bg-white rounded-lg shadow-md p-4 cursor-pointer" onClick={() => window.location.href = `/courses/${course.id}`}>
-                        <Image src={course.img} alt={course.name} width={600} height={400} className="w-full h-48 object-cover rounded-t-lg" />
-                        <h2 className="text-xl font-semibold mt-2 text-gray-600">{course.name}</h2>
-                        <p className="text-gray-600">{course.description}</p>
-                    </div>
-                ))}
-            </div>
+            {isLoading ? (
+                <div className="text-center text-gray-500">Loading...</div>
+            ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {selectedCourses.map((course) => (
+                        <div key={course.id} className="bg-white rounded-lg shadow-md p-4 cursor-pointer" onClick={() => window.location.href = `/courses/${course.id}`}>
+                            <Image src={course.img} alt={course.name} width={600} height={400} className="w-full h-48 object-cover rounded-t-lg" />
+                            <h2 className="text-xl font-semibold mt-2 text-gray-600">{course.name}</h2>
+                            <p className="text-gray-600">{course.description}</p>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }
