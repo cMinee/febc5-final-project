@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import Layout from "@/components/Layout"
 
 interface Lesson {
   id: string
@@ -46,40 +47,43 @@ export default function AdminCourseLessons() {
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Lessons in Course</h1>
+    <Layout>
+      <div>
+        <h1 className="text-2xl font-bold mb-4">Lessons in Course</h1>
 
-      <button onClick={() => setIsDialogOpen(true)} className="bg-blue-500 text-white px-4 py-2 rounded">
-        + เพิ่ม Lesson
-      </button>
+        <button onClick={() => setIsDialogOpen(true)} className="bg-blue-500 text-white px-4 py-2 rounded">
+          + เพิ่ม Lesson
+        </button>
 
-      {lessons.map(lesson => (
-        <div key={lesson.id} className="border p-3 my-2">
-          <h2 className="font-semibold">{lesson.title}</h2>
-          <p>{lesson.content}</p>
-          {lesson.videoUrl && <a href={lesson.videoUrl} className="text-blue-500" target="_blank">ดูวิดีโอ</a>}
-          <div className="mt-2">
-            <button onClick={() => handleDelete(lesson.id)} className="text-red-500">Delete</button>
+        {lessons.map(lesson => (
+          <div key={lesson.id} className="border p-3 my-2">
+            <h2 className="font-semibold">{lesson.title}</h2>
+            <p>{lesson.content}</p>
+            {lesson.videoUrl && <a href={lesson.videoUrl} className="text-blue-500" target="_blank">ดูวิดีโอ</a>}
+            <div className="mt-2">
+              <button onClick={() => handleDelete(lesson.id)} className="text-red-500">Delete</button>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
 
-      {isDialogOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded w-96">
-            <h2 className="text-xl font-bold mb-4">เพิ่ม Lesson ใหม่</h2>
-            <form onSubmit={handleAddLesson} className="space-y-2">
-              <input type="text" placeholder="Title" value={newLesson.title} onChange={e => setNewLesson({ ...newLesson, title: e.target.value })} className="border p-1 w-full" />
-              <input type="text" placeholder="Content" value={newLesson.content} onChange={e => setNewLesson({ ...newLesson, content: e.target.value })} className="border p-1 w-full" />
-              <input type="text" placeholder="Video URL (optional)" value={newLesson.videoUrl} onChange={e => setNewLesson({ ...newLesson, videoUrl: e.target.value })} className="border p-1 w-full" />
-              <div className="flex justify-end space-x-2 mt-4">
-                <button type="button" onClick={() => setIsDialogOpen(false)} className="bg-gray-300 px-3 py-1">Cancel</button>
-                <button type="submit" className="bg-blue-500 text-white px-3 py-1">Save</button>
-              </div>
-            </form>
+        {isDialogOpen && (
+          <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white text-black p-6 rounded w-100">
+              <h2 className="text-xl font-bold mb-4">เพิ่ม Lesson ใหม่</h2>
+              <form onSubmit={handleAddLesson} className="space-y-2">
+                <input type="text" placeholder="Title" value={newLesson.title} onChange={e => setNewLesson({ ...newLesson, title: e.target.value })} className="border p-1 w-full" />
+                {/* <input type="text" placeholder="Content" value={newLesson.content} onChange={e => setNewLesson({ ...newLesson, content: e.target.value })} className="border p-1 w-full" /> */}
+                <textarea className="textarea border p-1 w-full" placeholder="Content" value={newLesson.content} onChange={e => setNewLesson({ ...newLesson, content: e.target.value })}></textarea>
+                <input type="text" placeholder="Video URL (optional)" value={newLesson.videoUrl} onChange={e => setNewLesson({ ...newLesson, videoUrl: e.target.value })} className="border p-1 w-full" />
+                <div className="flex justify-end space-x-2 mt-4">
+                  <button type="button" onClick={() => setIsDialogOpen(false)} className="bg-gray-300 px-3 py-1">Cancel</button>
+                  <button type="submit" className="bg-blue-500 text-white px-3 py-1">Save</button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </Layout>
   )
 }

@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { notFound, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import Layout from "@/components/Layout";
-import { onlineCourses} from "@/app/lib/online-course";
 
 type SubSection = {
   id: number;
@@ -24,13 +23,13 @@ type CourseDetail = {
 
 export default function CourseDetailPage() {
   const params = useParams();
-  const courseId = Number(params?.id);
-  const [course, setCourse] = useState<CourseDetail | null>(null);
+  const courseId = params?.id;
   const [loading, setLoading] = useState(true);
-  const mainCourse = onlineCourses.find((c) => c.id === courseId);
+  const [course, setCourse] = useState<CourseDetail | null>(null);
+
 
   useEffect(() => {
-    fetch(`/api/courses-detail/${courseId}`)
+    fetch(`/api/admin/courses/${courseId}`)
       .then((res) => {
         if (!res.ok) throw new Error('Not found');
         return res.json();
@@ -41,7 +40,6 @@ export default function CourseDetailPage() {
   }, [courseId]);
 
   if (loading) return <p>Loading...</p>;
-  if (!course || !mainCourse) return notFound();
 
   function slugify(text: string) {
     return text.toLowerCase().replace(/\s+/g, '-');
@@ -51,15 +49,15 @@ export default function CourseDetailPage() {
     <Layout>
       <div className="relative w-full h-96">
         <img
-          src={mainCourse.img}
-          alt={course.title}
+          src={course.img}
+          alt={course.name}
           className="object-cover w-full h-full"
           property="true"
         />
 
         <div className="absolute inset-0 flex flex-col justify-center items-start px-12 bg-black bg-opacity-50 text-white">
-          <h2 className="text-6xl font-bold mb-2">{course.title}</h2>
-          <p className="text-lg max-w-2xl">{mainCourse.description}</p>
+          <h2 className="text-6xl font-bold mb-2">{course.name}</h2>
+          <p className="text-lg max-w-2xl">{course.description}</p>
           <button className="mt-8 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
             Start Learning
           </button>
@@ -74,20 +72,20 @@ export default function CourseDetailPage() {
               <img className="w-8 h-8" src="/time.png" alt="" />
               4-5 hours
             </p>
-            <p className="flex items-center gap-3 text-md mt-3">
+            {/* <p className="flex items-center gap-3 text-md mt-3">
               <img className="w-8 h-8" src="/lessons.png" alt="" />
               {course.subSections.length} lessons
-            </p>
+            </p> */}
             <p className="flex items-center gap-3 text-md mt-3">
               <img className="w-8 h-8" src="/practices.png" alt="" />
               5 Practices
             </p>
           </div>
           <div className="col-span-2 border-2 border-white rounded-md p-6">
-            <p className="text-xl mb-4 text-white">{course.overview}</p>
+            <p className="text-xl mb-4 text-white">{course.description}</p>
             <div className="grid gap-4">
               <div className="text-2xl font-bold text-white mb-2">บทเรียน</div>
-              {course.subSections.map((sub) => (
+              {/* {course.subSections.map((sub) => (
                 <div
                   key={sub.id}
                   className="flex justify-between items-center py-2 border-b border-gray-700"
@@ -113,7 +111,7 @@ export default function CourseDetailPage() {
                     {sub.unlocked ? 'Start' : '???'}
                   </button>
                 </div>
-              ))}
+              ))} */}
             </div>
           </div>
         </div>
