@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 
 export default function ProfileCard() {
   const { data: session } = useSession()
-  console.log("🧠 Session:", session)
+  // console.log("🧠 Session:", session)
   const router = useRouter()
 
   const handleLogin = () => {

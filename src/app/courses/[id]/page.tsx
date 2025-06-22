@@ -3,30 +3,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Layout from "@/components/Layout";
-
-type SubSection = {
-  id: number;
-  title: string;
-  unlocked: boolean;
-  bonus?: boolean;
-  videoUrl?: string;
-};
-
-type CourseDetail = {
-  id: number;
-  title: string;
-  overview: string;
-  price: number;
-  videoUrl: string;
-  subSections: SubSection[];
-};
+import { CourseDetail, SubSection } from "@prisma/client";
 
 export default function CourseDetailPage() {
   const params = useParams();
   const courseId = params?.id;
   const [loading, setLoading] = useState(true);
-  const [course, setCourse] = useState<CourseDetail | null>(null);
-
+  const [course, setCourse] = useState<CourseDetail[]>([]);
+  const [lessons, setLessons] = useState<SubSection[]>([]);
 
   useEffect(() => {
     fetch(`/api/admin/courses/${courseId}`)
@@ -35,8 +19,18 @@ export default function CourseDetailPage() {
         return res.json();
       })
       .then((data) => setCourse(data))
-      .catch(() => setCourse(null))
+      .catch(() => setCourse([]))
       .finally(() => setLoading(false));
+  }, [courseId]);
+
+  const fetchLessons = async () => {
+    const res = await fetch(`/api/admin/courses/${courseId}/lessons`);
+    const data = await res.json();
+    setLessons(data);
+  };
+
+  useEffect(() => {
+    fetchLessons()
   }, [courseId]);
 
   if (loading) return <p>Loading...</p>;
@@ -72,10 +66,11 @@ export default function CourseDetailPage() {
               <img className="w-8 h-8" src="/time.png" alt="" />
               4-5 hours
             </p>
-            {/* <p className="flex items-center gap-3 text-md mt-3">
+            {/* count lessons */}
+            <p className="flex items-center gap-3 text-md mt-3">
               <img className="w-8 h-8" src="/lessons.png" alt="" />
-              {course.subSections.length} lessons
-            </p> */}
+              {lessons.length} lessons
+            </p>
             <p className="flex items-center gap-3 text-md mt-3">
               <img className="w-8 h-8" src="/practices.png" alt="" />
               5 Practices
@@ -85,33 +80,22 @@ export default function CourseDetailPage() {
             <p className="text-xl mb-4 text-white">{course.description}</p>
             <div className="grid gap-4">
               <div className="text-2xl font-bold text-white mb-2">บทเรียน</div>
-              {/* {course.subSections.map((sub) => (
+              {lessons.map((sub) => (
                 <div
                   key={sub.id}
                   className="flex justify-between items-center py-2 border-b border-gray-700"
                 >
-                  <p className="w-1/3 text-gray-300">
-                    {sub.bonus ? 'Bonus' : `บทที่ ${sub.id}`}
-                  </p>
                   <p className="w-1/2 font-semibold text-white">{sub.title}</p>
                   <button
                     onClick={() => {
-                      if (sub.unlocked) {
-                        window.location.href = `/courses/${courseId}/learn/${slugify(sub.title)}`;
-                      }
+                      window.location.href = `/courses/${courseId}/learn/${slugify(sub.title)}`;
                     }}
-                    disabled={!sub.unlocked}
-                    className={`w-20 py-1 rounded border border-gray-400 text-center
-                      ${
-                        sub.unlocked
-                          ? 'bg-blue-500 hover:bg-blue-600 text-white'
-                          : 'bg-gray-700 text-gray-300 cursor-not-allowed'
-                      }`}
+                    className={"w-20 py-1 rounded border border-gray-400 text-center bg-blue-500 hover:bg-blue-600 text-white'"}
                   >
-                    {sub.unlocked ? 'Start' : '???'}
+                    Start
                   </button>
                 </div>
-              ))} */}
+              ))}
             </div>
           </div>
         </div>

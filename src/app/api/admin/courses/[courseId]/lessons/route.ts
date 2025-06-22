@@ -5,7 +5,7 @@ export async function GET(_: NextRequest, { params }: { params: { courseId: stri
   const lessons = await prisma.lesson.findMany({
     where: { courseId: params.courseId }
   })
-  return NextResponse.json(lessons)
+  return NextResponse.json(lessons || [])
 }
 
 export async function POST(req: NextRequest, { params }: { params: { courseId: string } }) {

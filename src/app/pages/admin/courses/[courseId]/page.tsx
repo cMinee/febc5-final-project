@@ -42,7 +42,7 @@ export default function AdminCourseLessons() {
 
   const handleDelete = async (lessonId: string) => {
     if (!confirm("คุณแน่ใจว่าต้องการลบบทเรียนนี้?")) return
-    await fetch(`/api/admin/lessons/${lessonId}`, { method: "DELETE" })
+    await fetch(`/api/admin/courses/${courseId}/lessons/${lessonId}`, { method: "DELETE" })
     fetchLessons()
   }
 

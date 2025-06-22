@@ -1,111 +1,169 @@
 "use client";
 
 import { useParams, notFound } from "next/navigation";
-import { courseDetails } from "@/app/lib/courses-detail";
-import { onlineCourses } from "@/app/lib/online-course";
+import { useState, useEffect } from "react";
+import Layout from "@/components/Layout";
 
-function deslugify(slug: string) {
-  return slug.replace(/-/g, " ").toLowerCase();
-}
+type Lesson = {
+  id: string;
+  title: string;
+  content: string;
+  videoUrl: string;
+  courseId: string;
+};
 
 function slugify(text: string) {
   return text.toLowerCase().replace(/\s+/g, "-");
 }
 
 export default function LearnPage() {
-  const { id, slug } = useParams();
-  const courseId = Number(id);
-  const slugTitle = deslugify(slug as string);
+  const params = useParams();
+  const courseId = params?.id as string;
+  const slugTitle = decodeURIComponent((params?.slug as string)?.toLowerCase().replace(/-/g, " "));
 
-  const course = courseDetails.find((c) => c.id === courseId);
-  const mainCourse = onlineCourses.find((c) => c.id === courseId);
+  const [lesson, setLesson] = useState<Lesson | null>(null);
+  const [allLessons, setAllLessons] = useState<Lesson[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  if (!course || !mainCourse) return notFound();
+  useEffect(() => {
+    const fetchLesson = async () => {
+      try {
+        // 1. โหลด lessons ทั้งหมดในคอร์สนี้
+        const resAll = await fetch(`/api/admin/courses/${courseId}/lessons`);
+        const all = await resAll.json();
+        setAllLessons(all);
 
-  const current = course.subSections.find(
-    (s) => s.title.toLowerCase() === slugTitle
-  );
-  const currentIndex = course.subSections.findIndex(
-    (s) => s.title.toLowerCase() === slugTitle
-  );
+        // 2. หา lesson ที่ตรงกับ slug
+        const currentLesson = all.find(
+          (l: Lesson) => slugify(l.title) === slugify(slugTitle)
+        );
 
-  if (!current) return notFound();
+        if (!currentLesson) throw new Error("Lesson not found");
 
-  const next = course.subSections[currentIndex + 1];
+        // 3. โหลดข้อมูลละเอียดของ lesson
+        const resDetail = await fetch(`/api/admin/courses/${courseId}/lessons/${currentLesson.id}`);
+        const data = await resDetail.json();
 
-  async function handleComplete() {
-    try {
-      const res = await fetch("/api/progress", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: 1, // mock user ID
-          courseId: courseId,
-          subSectionId: current.id,
-        }),
-      });
-      if (!res.ok) throw new Error("Failed to save progress");
-    } catch (err) {
-      console.error(err);
-    }
-  }
+        setLesson(data);
+      } catch (err) {
+        console.error("❌ Error loading lesson:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (courseId) fetchLesson();
+  }, [courseId, slugTitle]);
+
+  // prev next lesson
+  const currentIndex = allLessons.findIndex((l) => l.id === lesson?.id);
+  const next = currentIndex !== -1 ? allLessons[currentIndex + 1] : null;
+
+  if (loading) return <p>Loading...</p>;
+  if (!lesson) return notFound();
 
   return (
-    <div className="flex min-h-screen text-white">
-      {/* MAIN CONTENT */}
-      <div className="flex-1 p-6">
-        <h1 className="text-3xl font-bold mb-2">{current.title}</h1>
-        <p className="mb-4 text-gray-300">{mainCourse.name}</p>
+    <Layout>
+      <div className="p-8 text-white">
+        <div className="flex align-center mb-4">
+          <a href={`/courses/${courseId}`} className="text-blue-500 hover:underline mr-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="size-8">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg>
+          </a>
+          <h1 className="text-3xl font-bold mb-4">{lesson.title}</h1>
+        </div>
 
-        <video
-          controls
-          className="w-full rounded-md"
-          onEnded={handleComplete}
-        >
-          <source src={current.videoUrl} type="video/mp4" />
-        </video>
+        {/* row and 2 column */}
+        <div> 
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"> 
+            {/* Video and Navigation Column - Takes 2 columns on large screens */}
+            <div className="lg:col-span-2"> 
+              {lesson.videoUrl.includes("youtube.com") ? ( 
+                <iframe 
+                  className="w-full aspect-video rounded-md" 
+                  src={lesson.videoUrl} 
+                  title={lesson.title} 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowFullScreen 
+                /> 
+              ) : ( 
+                <video controls className="w-full rounded-md"> 
+                  <source src={lesson.videoUrl} type="video/mp4" /> 
+                </video> 
+              )} 
 
-        {next && next.unlocked && (
-          <div className="mt-6">
-            <button
-              onClick={() =>
-                (window.location.href = `/courses/${courseId}/learn/${slugify(next.title)}`)
-              }
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
-            >
-              บทเรียนถัดไป: {next.title}
-            </button>
-          </div>
-        )}
-      </div>
+              {lesson.content && ( 
+                <div className="mt-4 text-gray-300 whitespace-pre-wrap"> 
+                  {lesson.content} 
+                </div> 
+              )} 
 
-      {/* SIDEBAR */}
-      <div className="w-72 bg-gray-900 border-l border-gray-800 p-4">
-        <h2 className="text-xl font-bold mb-4">บทเรียน</h2>
-        <div className="space-y-2">
-          {course.subSections.map((s) => (
-            <div
-              key={s.id}
-              className={`p-3 rounded-md flex justify-between items-center 
-                ${
-                  s.unlocked
-                    ? "bg-gray-700 hover:bg-gray-600 cursor-pointer"
-                    : "bg-gray-800 text-gray-400 cursor-not-allowed"
-                }`}
-              onClick={() => {
-                if (s.unlocked) {
-                  window.location.href = `/courses/${courseId}/learn/${slugify(s.title)}`;
-                }
-              }}
-            >
-              <span className="truncate text-sm">{s.title}</span>
-              <span className="text-xs font-bold">
-                {s.unlocked ? "เริ่ม" : "🔒"}
-              </span>
+              {/* prev next button */} 
+              <div className="flex justify-between mt-6"> 
+                {currentIndex > 0 && ( 
+                  <button 
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors" 
+                    onClick={() => 
+                      window.location.href = `/courses/${courseId}/learn/${slugify(allLessons[currentIndex - 1].title)}` 
+                    } 
+                  > 
+                    Prev 
+                  </button> 
+                )} 
+
+                {next && ( 
+                  <button 
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors ml-auto" 
+                    onClick={() => 
+                      window.location.href = `/courses/${courseId}/learn/${slugify(next.title)}` 
+                    } 
+                  > 
+                    Next 
+                  </button> 
+                )} 
+              </div> 
+            </div> 
+            
+            {/* Lessons Sidebar - Takes 1 column */}
+            <div className="lg:col-span-1">
+              <div className="bg-gray-800 p-4 rounded-md sticky top-4">
+                <h2 className="text-3xl font-bold mb-4 text-white">Progress</h2>
+                <progress className="progress progress-primary w-full" value={0} max="100"></progress>
+              </div>
+              <div className="bg-gray-800 p-4 rounded-md sticky top-4 mt-3">
+                <h2 className="text-3xl font-bold mb-4 text-white">Lessons</h2>
+                <ul className="space-y-2">
+                  {allLessons.map((l: Lesson) => {
+                    // เช็คว่าเป็นบทเรียนปัจจุบันหรือไม่
+                    const isCurrentLesson = l.id === lesson?.id;
+                    
+                    return (
+                      <li key={l.id}>
+                        <a
+                          href={`/courses/${courseId}/learn/${slugify(l.title)}`}
+                          className={`block py-2 px-3 rounded transition-all duration-200 ${
+                            isCurrentLesson
+                              ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold text-2xl shadow-lg border-l-4 border-blue-300' // สีเด่นพร้อม gradient และ border
+                              : 'text-blue-400 hover:text-blue-300 text-2xl  hover:underline hover:bg-gray-700 hover:pl-4' // สีปกติพร้อม animation
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" className="text-white"/>
+                            </svg>
+                            {l.title}
+                          </div>
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
             </div>
-          ))}
+          </div> 
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
