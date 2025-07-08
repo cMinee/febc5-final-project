@@ -23,7 +23,7 @@ export default function ProfileCard() {
         <div className="flex items-center space-x-2">
           <span className="text-white">{session.user && session.user.name}</span>
           <button
-            className="bg-red-500 text-white px-3 py-1 rounded"
+            className="bg-secondary border-black border-2 text-white px-3 py-1 rounded-md"
             onClick={handleLogout}>Logout</button>
         </div>
       ) : (

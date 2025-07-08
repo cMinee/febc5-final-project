@@ -57,10 +57,10 @@ export default function CourseItemLists() {
             {/* แสดงรายการคอร์ส */}
             {/* เปลี่ยนให้เป็นแบบคล้ายๆ mid project */}
             {searchQuery && (
-                <div id="search-results" className="absolute bg-white shadow-md rounded-md w-3/4 mt-2 z-10">
+                <div id="search-results" className="absolute bg-white shadow-md rounded-lg w-3/4 mt-2 z-10">
                     {filteredCourses.length > 0 ? (
                         filteredCourses.map((course) => (
-                            <div key={course.id} className="p-4 border-b border-gray-200 cursor-pointer hover:bg-gray-100">
+                            <div key={course.id} className="p-4 border-b border-gray-200 cursor-pointer hover:bg-gray-100" onClick={() => window.location.href = `/courses/${course.id}`}>
                                 <div className="flex items-center">
                                     <Image src={course.img} alt={course.name} width={80} height={80} className="rounded-md mr-4" />
                                     <div>
@@ -100,9 +100,14 @@ export default function CourseItemLists() {
                             <Image src={course.img} alt={course.name} width={600} height={400} className="w-full h-48 object-cover rounded-t-lg" />
                             <h2 className="text-xl font-semibold mt-2 text-gray-600">{course.name}</h2>
                             <p className="text-gray-600">{course.description}</p>
+                            <button 
+                                className="mt-4 px-4 py-2 w-full bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                onClick={() => window.location.href = `/courses/${course.id}`}
+                            >   Learn More...
+                            </button>
                         </div>
-                    ))}
-                </div>
+                    ))} 
+                </div>  
             )}
         </div>
     )

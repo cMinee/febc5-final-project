@@ -52,7 +52,7 @@ export default function CourseDetailPage() {
         <div className="absolute inset-0 flex flex-col justify-center items-start px-12 bg-black bg-opacity-50 text-white">
           <h2 className="text-6xl font-bold mb-2">{course.name}</h2>
           <p className="text-lg max-w-2xl">{course.description}</p>
-          <button className="mt-8 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+          <button className="mt-8 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" onClick={() => window.location.href = `/courses/${courseId}/learn/${slugify(lessons[0]?.title || '')}`}>
             Start Learning
           </button>
         </div>
