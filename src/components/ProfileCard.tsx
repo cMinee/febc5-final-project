@@ -10,7 +10,7 @@ export default function ProfileCard() {
   const router = useRouter()
 
   const handleLogin = () => {
-    router.push("/pages/login") // go to login
+    router.push("/pages/login") // go to login 
   }
 
   const handleLogout = async () => {
@@ -21,13 +21,17 @@ export default function ProfileCard() {
     <div>
       {session ? (
         <div className="flex items-center space-x-2">
-          <span className="text-white">{session.user && session.user.name}</span>
+          <span className="hidden lg:block text-fourth text-xl">{session.user && session.user.name}</span>
           <button
-            className="bg-secondary border-black border-2 text-white px-3 py-1 rounded-md"
+            className="md:text-xl bg-secondary border-black border text-primary px-3 py-1 rounded-md hover:text-xl hover:bg-primary hover:text-black hover:border-secondary hover:border-2"
             onClick={handleLogout}>Logout</button>
         </div>
       ) : (
-        <button onClick={handleLogin}>🔐 Login</button>
+        <button
+          className="md:text-xl bg-secondary border-black border text-primary px-3 py-1 rounded-md hover:text-xl hover:bg-primary hover:text-black hover:border-secondary hover:border-2"
+          onClick={handleLogin}>
+            Login
+        </button>
       )}
     </div>
   )

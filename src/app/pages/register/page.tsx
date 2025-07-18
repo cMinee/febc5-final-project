@@ -30,34 +30,50 @@ export default function RegisterPage() {
   }
 
   return (
-    <form onSubmit={handleRegister} className="space-y-4 max-w-md mx-auto mt-20 text-white">
-      <h2 className="text-2xl font-bold">สมัครสมาชิก</h2>
-      {/* name */}
-      <input
-        type="text"
-        placeholder="Fullname"
-        value={name}
-        onChange={e => setName(e.target.value)}
-        className="w-full p-2 rounded bg-gray-800"
-        autoComplete="name"
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        className="w-full p-2 rounded bg-gray-800"
-        autoComplete="email"
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        className="w-full p-2 rounded bg-gray-800"
-        autoComplete="current-password"
-      />
-      <button type="submit" className="w-full bg-green-500 p-2 rounded">Register</button>
-    </form>
+    <div className="flex items-center justify-center min-h-screen bg-fourth text-center">
+      <div className="bg-tertiary rounded-xl px-10 py-20 border-fourth border-2 w-full max-w-lg">
+        <form onSubmit={handleRegister} className="space-y-4 max-w-md text-fourth text-xl">
+          <h2 className="text-3xl font-bold">Welcome to...</h2>
+          <br />
+          <br />
+          {/* name */}
+          <input
+            type="text"
+            placeholder="Fullname"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            className="w-full p-3 rounded-lg bg-primary"
+            autoComplete="name"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            className="w-full p-3 rounded-lg bg-primary"
+            autoComplete="email"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            className="w-full p-3 rounded-lg bg-primary"
+            autoComplete="current-password"
+          />
+          <br />
+          <br />
+          <button type="submit" className="w-full bg-fourth text-primary font-bold p-3 rounded-lg shadow-lg">Register</button>
+          <br /><br />
+          <p className="flex justify-center">Already have an account?&nbsp;
+            <a 
+              className="underline font-bold"
+              href="/pages/login"
+            > Sign in
+            </a>
+          </p>
+        </form>
+      </div>
+    </div>
   )
 }

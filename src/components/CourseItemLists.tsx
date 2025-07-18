@@ -51,11 +51,10 @@ export default function CourseItemLists() {
         <div className="container mx-auto py-8">
             {/* start search course by name */}
             <div className="flex justify-start mb-8">
-                <input type="text" placeholder="Search course" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-3/4 border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black" />
+                <input type="text" placeholder="Search course" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-3/4 border border-fourth rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary text-fourth" />
                 {/* <button className="ml-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Search</button> */}
             </div>
-            {/* แสดงรายการคอร์ส */}
-            {/* เปลี่ยนให้เป็นแบบคล้ายๆ mid project */}
+            {/* show search result */}
             {searchQuery && (
                 <div id="search-results" className="absolute bg-white shadow-md rounded-lg w-3/4 mt-2 z-10">
                     {filteredCourses.length > 0 ? (
@@ -77,6 +76,7 @@ export default function CourseItemLists() {
             {/* End search course by name */}
 
             {/* start category course */}
+            {/* ${selectedCategory === category ? "bg-white text-gray-600 [box-shadow:0_0_10px_#00ff00,0_0_20px_#00ff00]" : "bg-primary text-fourth"}`} */}
             <div className="flex flex-wrap justify-start mb-8">
                 {Array.from(new Set(onlineCourses.map(course => course.category))) // ดึงค่า category ที่ไม่ซ้ำกัน
                     .map((category) => (
@@ -84,25 +84,38 @@ export default function CourseItemLists() {
                             key={category}
                             onClick={() => handleCategoryChange(category)}
                             className={`text-center px-3 py-1 rounded-full my-2 mr-4 border cursor-pointer
-                                ${selectedCategory === category ? "bg-white text-gray-600 [box-shadow:0_0_10px_#00ff00,0_0_20px_#00ff00]" : "bg-white text-gray-600"}`}
+                                ${selectedCategory === category ? "bg-tertiary text-fourth border-fourth border" : "bg-primary text-fourth border-fourth border"}`}
                             >{category}
                         </button>
                     ))}
             </div>
 
+            <p className="text-2xl font-semibold mb-4 text-fourth">Newest Courses</p>
+
             {/* show course item */}
             {isLoading ? (
                 <div className="text-center text-gray-500">Loading...</div>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                     {selectedCourses.map((course) => (
-                        <div key={course.id} className="bg-white rounded-lg shadow-md p-4 cursor-pointer" onClick={() => window.location.href = `/courses/${course.id}`}>
-                            <Image src={course.img} alt={course.name} width={600} height={400} className="w-full h-48 object-cover rounded-t-lg" />
-                            <h2 className="text-xl font-semibold mt-2 text-gray-600">{course.name}</h2>
-                            <p className="text-gray-600">{course.description}</p>
+                        <div key={course.id} className="bg-white border-fourth border rounded-lg shadow-md p-4 cursor-pointer flex flex-col justify-between h-full" onClick={() => window.location.href = `/courses/${course.id}`}>
+                            <div>
+                                <Image 
+                                    src={course.img} 
+                                    alt={course.name} 
+                                    width={600} 
+                                    height={400} 
+                                    className="w-full h-48 object-cover rounded-t-lg"
+                                />
+                                <h2 className="text-xl font-semibold my-2 text-gray-600">{course.name}</h2>
+                                <p className="text-gray-600">{course.description}</p>
+                            </div>
                             <button 
-                                className="mt-4 px-4 py-2 w-full bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                onClick={() => window.location.href = `/courses/${course.id}`}
+                                className="mt-4 px-4 py-2 w-full bg-secondary text-white rounded-md hover:shadow-lg"
+                                onClick={(e) => {
+                                    e.stopPropagation(); // ป้องกัน trigger ทั้ง card
+                                    window.location.href = `/courses/${course.id}`;
+                                }}
                             >   Learn More...
                             </button>
                         </div>

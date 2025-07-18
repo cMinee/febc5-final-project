@@ -15,13 +15,13 @@ function classNames(...classes) {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col min-h-screen">
-      <Disclosure as="nav" className="bg-primary text-black font-semibold">
+    <div className="flex flex-col min-h-screen bg-primary">
+      <Disclosure as="nav" className="bg-primary text-fourth font-semibold shadow-lg py-2">
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
               {/* Mobile menu button*/}
-              <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-primary font-bold hover:bg-black hover:text-primary focus:ring-2 focus:ring-pr focus:outline-hidden focus:ring-inset">
+              <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-fourth font-bold hover:bg-fourth hover:text-primary focus:ring-2 focus:ring-pr focus:outline-hidden focus:ring-inset">
                 <span className="absolute -inset-0.5" />
                 <span className="sr-only">Open main menu</span>
                 <Bars3Icon aria-hidden="true" className="block size-6 group-data-open:hidden" />
@@ -44,8 +44,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       href={item.href}
                       aria-current={item.current ? 'page' : undefined}
                       className={classNames(
-                        item.current ? 'bg-black text-primary font-semibold' : 'text-black hover:bg-black hover:text-primary font-semibold  ',
-                        'rounded-md px-3 py-2 text-sm font-medium',
+                        item.current ? 'bg-fourth text-primary font-semibold text-xl' : 'text-xl text-fourth hover:bg-fourth hover:text-primary font-semibold  ',
+                        'rounded-md px-3 py-1 text-sm font-medium',
                       )}
                     >
                       {item.name}
@@ -61,7 +61,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
 
         <DisclosurePanel className="sm:hidden">
-          <div className="space-y-1 px-2 pt-2 pb-3">
+          <div className="space-y-1 px-2 pt-2 pb-3 shadow-xl">
             {navigation.map((item) => (
               <DisclosureButton
                 key={item.name}
@@ -69,8 +69,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 href={item.href}
                 aria-current={item.current ? 'page' : undefined}
                 className={classNames(
-                  item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                  'block rounded-md px-3 py-2 text-base font-medium',
+                  item.current ? 'bg-fourth text-primary' : 'text-fourth hover:bg-fourth hover:text-primary',
+                  'block rounded-md px-3 py-2 text-base font-medium border-fourth border',
                 )}
               >
                 {item.name}

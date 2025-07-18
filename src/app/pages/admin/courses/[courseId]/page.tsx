@@ -51,12 +51,14 @@ export default function AdminCourseLessons() {
       <div>
         <h1 className="text-2xl font-bold mb-4">Lessons in Course</h1>
 
-        <button onClick={() => setIsDialogOpen(true)} className="bg-blue-500 text-white px-4 py-2 rounded">
-          + เพิ่ม Lesson
-        </button>
+        <div className="flex justify-end">
+          <button onClick={() => setIsDialogOpen(true)} className="bg-secondary text-white px-4 py-2 rounded-md mb-4">
+            + เพิ่ม Lesson
+          </button>
+        </div>
 
         {lessons.map(lesson => (
-          <div key={lesson.id} className="border p-3 my-2">
+          <div key={lesson.id} className="border border-fourth rounded-lg p-3 my-2">
             <h2 className="font-semibold">{lesson.title}</h2>
             <p>{lesson.content}</p>
             {lesson.videoUrl && <a href={lesson.videoUrl} className="text-blue-500" target="_blank">ดูวิดีโอ</a>}

@@ -40,28 +40,41 @@ export default function LoginPage() {
   }, [status, session, router])
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto mt-20 text-white">
-        <h2 className="text-2xl font-bold">Sign In</h2>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          className="w-full p-2 rounded bg-gray-800"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          className="w-full p-2 rounded bg-gray-800"
-        />
-        <button type="submit" className="w-full bg-blue-500 p-2 rounded" disabled={isLoggedIn}>{isLoggedIn ? "Signing in..." : "Sign in"}</button>
-
-      </form>
-      <br />
-      <button onClick={() => router.push("/pages/register")} className="w-50 mx-auto justify-center bg-green-500 p-2 rounded">Register</button>
+    <div className="flex items-center justify-center min-h-screen bg-primary text-center">
+      <div className="bg-tertiary rounded-xl px-10 py-20 border-fourth border-2 w-full max-w-lg">
+        <form onSubmit={handleSubmit} className="space-y-4 max-w-md text-fourth text-xl">
+          <h2 className="text-3xl font-bold">Sign In</h2>
+          <p className="flex justify-center text-xl">
+            Don’t you have an any account yet?&nbsp;
+            <a
+              className="underline font-bold mb-10"
+              href="/pages/register"
+            > Sing up
+            </a>
+          </p>
+          <br />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            className="w-full p-3 rounded-lg bg-primary"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            className="w-full p-3 rounded-lg bg-primary"
+          />
+          <a className="flex justify-end text-fourth" href="#">Forgot password?</a>
+          <br />
+          <br />
+          <button type="submit" className="w-full bg-secondary p-3 rounded-lg text-primary text-xl font-bold shadow-lg" disabled={isLoggedIn}>{isLoggedIn ? "Signing in..." : "Sign in"}</button>
+        </form>
+        {/* <br />
+        <button onClick={() => router.push("/pages/register")} className="w-50 mx-auto justify-center bg-green-500 p-2 rounded">Register</button> */}
+      </div>
     </div>
   )
 }

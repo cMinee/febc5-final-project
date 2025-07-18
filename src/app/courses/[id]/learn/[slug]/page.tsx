@@ -64,9 +64,9 @@ export default function LearnPage() {
 
   return (
     <Layout>
-      <div className="p-8 text-white">
+      <div className="p-8 text-fourth">
         <div className="flex align-center mb-4">
-          <a href={`/courses/${courseId}`} className="text-blue-500 hover:underline mr-4">
+          <a href={`/courses/${courseId}`} className="text-fourth hover:underline mr-4">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="size-8">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
             </svg>
@@ -81,20 +81,20 @@ export default function LearnPage() {
             <div className="lg:col-span-2"> 
               {lesson.videoUrl.includes("youtube.com") ? ( 
                 <iframe 
-                  className="w-full aspect-video rounded-md" 
+                  className="w-full aspect-video rounded-lg" 
                   src={lesson.videoUrl} 
                   title={lesson.title} 
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                   allowFullScreen 
                 /> 
               ) : ( 
-                <video controls className="w-full rounded-md"> 
+                <video controls className="w-full rounded-lg"> 
                   <source src={lesson.videoUrl} type="video/mp4" /> 
                 </video> 
               )} 
 
               {lesson.content && ( 
-                <div className="mt-4 text-gray-300 whitespace-pre-wrap"> 
+                <div className="mt-4 text-primary whitespace-pre-wrap"> 
                   {lesson.content} 
                 </div> 
               )} 
@@ -103,37 +103,59 @@ export default function LearnPage() {
               <div className="flex justify-between mt-6"> 
                 {currentIndex > 0 && ( 
                   <button 
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors" 
+                    className="flex items-center text-fourth md:text-2xl font-semibold px-6 py-2 rounded-full" 
                     onClick={() => 
                       window.location.href = `/courses/${courseId}/learn/${slugify(allLessons[currentIndex - 1].title)}` 
                     } 
-                  > 
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="size-6 text-fourth">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                    </svg>
                     Prev 
                   </button> 
                 )} 
 
                 {next && ( 
                   <button 
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors ml-auto" 
+                    className="flex items-center text-fourth md:text-2xl font-semibold px-6 py-2 rounded-full" 
                     onClick={() => 
                       window.location.href = `/courses/${courseId}/learn/${slugify(next.title)}` 
                     } 
-                  > 
+                  >
                     Next 
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="size-6 text-fourth">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                    </svg>
                   </button> 
                 )} 
-              </div> 
+              </div>
+              <div className="mt-6 bg-tertiary border-fourth border p-4 rounded-lg">
+                <p className="text-3xl font-bold mb-4 text-fourth">Comment</p>
+
+                <textarea
+                  placeholder="Any idea or if you have any question?"
+                  className="w-full md:text-xl h-40 p-4 rounded-lg border border-fourth focus:outline-none focus:ring-2 focus:ring-fourth resize-none text-fourth"
+                />
+
+                <div className="flex items-end text-end justify-end">
+                  <button
+                    className="md:text-xl bg-secondary text-primary px-6 py-2 rounded-lg hover:shadow-lg hover:border-fourth hover:border transition-colors mt-4"
+                  > Post
+                  </button>
+                </div>
+                
+              </div>
             </div> 
             
             {/* Lessons Sidebar - Takes 1 column */}
             <div className="lg:col-span-1">
-              <div className="bg-gray-800 p-4 rounded-md sticky top-4">
-                <h2 className="text-3xl font-bold mb-4 text-white">Progress</h2>
-                <progress className="progress progress-primary w-full" value={0} max="100"></progress>
+              <div className="bg-primary border-fourth border p-4 rounded-lg top-4">
+                <h2 className="text-3xl font-bold mb-4 text-fourth">Progress</h2>
+                <progress className="progress progress-warning w-full rounded-full bg-secondary" value={50} max="100"></progress>
               </div>
-              <div className="bg-gray-800 p-4 rounded-md sticky top-4 mt-3">
-                <h2 className="text-3xl font-bold mb-4 text-white">Lessons</h2>
-                <ul className="space-y-2">
+              <div className="bg-fourth p-4 rounded-lg top-4 mt-3 min-h-screen">
+                <h2 className="text-3xl font-bold mb-8 text-primary">Lessons</h2>
+                <ul className="space-y-6">
                   {allLessons.map((l: Lesson) => {
                     // เช็คว่าเป็นบทเรียนปัจจุบันหรือไม่
                     const isCurrentLesson = l.id === lesson?.id;
@@ -144,8 +166,8 @@ export default function LearnPage() {
                           href={`/courses/${courseId}/learn/${slugify(l.title)}`}
                           className={`block py-2 px-3 rounded transition-all duration-200 ${
                             isCurrentLesson
-                              ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold text-2xl shadow-lg border-l-4 border-blue-300' // สีเด่นพร้อม gradient และ border
-                              : 'text-blue-400 hover:text-blue-300 text-2xl  hover:underline hover:bg-gray-700 hover:pl-4' // สีปกติพร้อม animation
+                              ? 'bg-gradient-to-r from-gray-600 to-gray-700 text-white font-semibold text-xl shadow-lg border-l-4 border-primary' // สีเด่นพร้อม gradient และ border
+                              : 'text-primary text-2xl hover:bg-gray-700 hover:pl-4' // สีปกติพร้อม animation
                           }`}
                         >
                           <div className="flex items-center gap-2">

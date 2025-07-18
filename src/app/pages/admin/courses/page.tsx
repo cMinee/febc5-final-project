@@ -44,41 +44,55 @@ export default function CoursesManagePage() {
       <div>
         <h1 className="text-2xl font-bold mb-4">Courses Manage</h1>
 
-        <div className="mb-4">
-          <button onClick={() => {setIsDialogOpen(true); setEditingCourse(null);}} className="bg-blue-500 text-white px-4 py-2 rounded">
+        <div className="mb-4 flex items-end justify-end mb-6">
+          <button onClick={() => {setIsDialogOpen(true); setEditingCourse(null);}} className="bg-secondary text-primary px-4 py-2 rounded">
             + เพิ่มคอร์ส
           </button>
         </div>
 
         {isLoading ? ( <p>Loading...</p> ) : (
-          <table className="table-auto w-full">
-            <thead>
+          <table className="table-auto w-full border-collapse shadow-md border border-gray-300 rounded-lg overflow-y-auto">
+            <thead className="bg-fourth text-primary text-left">
               <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Category</th>
-                <th>Actions</th>
+                <th className="px-4 py-2">Image</th>
+                <th className="px-4 py-2">Name</th>
+                <th className="px-4 py-2 w-1/3">Description</th>
+                <th className="px-4 py-2">Price</th>
+                <th className="px-4 py-2">Category</th>
+                <th className="px-4 py-2">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="bg-white text-black">
               {courses.map((course) => (
-                <tr key={course.id}>
-                  <td><img src={course.img} alt={course.name} className="w-12 h-12 object-cover" /></td>
-                  <td>
-                    <a onClick={() => router.push(`/pages/admin/courses/${course.id}`)} data-id="{courseId}" className="text-blue-500 none-underline">{course.name}</a>
+                <tr key={course.id} className="border-t border-gray-200 hover:bg-gray-50 transition">
+                  <td className="px-4 py-2">
+                    <img src={course.img} alt={course.name} className="w-14 h-14 object-cover rounded" />
                   </td>
-                  <td>{course.description}</td>
-                  <td>{course.price}</td>
-                  <td>{course.category}</td>
-                  <td>
-                    <button className="text-blue-500" onClick={() => {
-                        setEditingCourse(course); // set course to edit
+                  <td className="px-4 py-2 font-medium text-blue-600 cursor-pointer hover:underline"
+                      onClick={() => router.push(`/pages/admin/courses/${course.id}`)}>
+                    {course.name}
+                  </td>
+                  <td className="px-4 py-2 text-sm text-gray-700 break-words line-clamp-3">
+                    {course.description}
+                  </td>
+                  <td className="px-4 py-2">{course.price}</td>
+                  <td className="px-4 py-2">{course.category}</td>
+                  <td className="px-4 py-2 space-x-2">
+                    <button
+                      className="text-sm text-white bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded"
+                      onClick={() => {
+                        setEditingCourse(course);
                         setIsDialogOpen(true);
-                      }}>Edit
-                    </button>{" "}
-                    <button className="text-red-500" onClick={() => handleDelete(course.id)}>Delete</button>
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="text-sm text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded"
+                      onClick={() => handleDelete(course.id)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}
