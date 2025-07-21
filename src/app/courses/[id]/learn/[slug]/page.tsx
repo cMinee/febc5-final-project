@@ -12,6 +12,13 @@ type Lesson = {
   courseId: string;
 };
 
+type Progress = {
+  userId: string;
+  lessonId: string;
+  courseId: string;
+  completed: boolean;
+};
+
 function slugify(text: string) {
   return text.toLowerCase().replace(/\s+/g, "-");
 }
@@ -24,6 +31,8 @@ export default function LearnPage() {
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [allLessons, setAllLessons] = useState<Lesson[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // const [progress, setProgress] = useState<Progress | null>(null);
 
   useEffect(() => {
     const fetchLesson = async () => {
@@ -45,6 +54,12 @@ export default function LearnPage() {
         const data = await resDetail.json();
 
         setLesson(data);
+
+        // 4. โหลดข้อมูลความคืบหน้า
+        // const resProgress = await fetch(`/api/progress`);
+        // const progressData = await resProgress.json();
+        // setProgress(progressData);
+
       } catch (err) {
         console.error("❌ Error loading lesson:", err);
       } finally {
@@ -71,7 +86,7 @@ export default function LearnPage() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
             </svg>
           </a>
-          <h1 className="text-3xl font-bold mb-4">{lesson.title}</h1>
+          <h1 className="text-2xl font-bold mb-4">{lesson.title}</h1>
         </div>
 
         {/* row and 2 column */}
@@ -103,12 +118,12 @@ export default function LearnPage() {
               <div className="flex justify-between mt-6"> 
                 {currentIndex > 0 && ( 
                   <button 
-                    className="flex items-center text-fourth md:text-2xl font-semibold px-6 py-2 rounded-full" 
+                    className="flex items-center text-fourth font-semibold px-6 py-2 rounded-full" 
                     onClick={() => 
                       window.location.href = `/courses/${courseId}/learn/${slugify(allLessons[currentIndex - 1].title)}` 
                     } 
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="size-6 text-fourth">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="size-4 text-fourth">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
                     Prev 
@@ -117,20 +132,20 @@ export default function LearnPage() {
 
                 {next && ( 
                   <button 
-                    className="flex items-center text-fourth md:text-2xl font-semibold px-6 py-2 rounded-full" 
+                    className="flex items-center text-fourth font-semibold px-6 py-2 rounded-full" 
                     onClick={() => 
                       window.location.href = `/courses/${courseId}/learn/${slugify(next.title)}` 
                     } 
                   >
                     Next 
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="size-6 text-fourth">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="size-4 text-fourth">
                       <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                     </svg>
                   </button> 
                 )} 
               </div>
               <div className="mt-6 bg-tertiary border-fourth border p-4 rounded-lg">
-                <p className="text-3xl font-bold mb-4 text-fourth">Comment</p>
+                <p className="text-2xl font-bold mb-4 text-fourth">Comment</p>
 
                 <textarea
                   placeholder="Any idea or if you have any question?"
@@ -150,11 +165,11 @@ export default function LearnPage() {
             {/* Lessons Sidebar - Takes 1 column */}
             <div className="lg:col-span-1">
               <div className="bg-primary border-fourth border p-4 rounded-lg top-4">
-                <h2 className="text-3xl font-bold mb-4 text-fourth">Progress</h2>
+                <h2 className="text-xl font-bold mb-4 text-fourth">Progress</h2>
                 <progress className="progress progress-warning w-full rounded-full bg-secondary" value={50} max="100"></progress>
               </div>
               <div className="bg-fourth p-4 rounded-lg top-4 mt-3 min-h-screen">
-                <h2 className="text-3xl font-bold mb-8 text-primary">Lessons</h2>
+                <h2 className="text-xl font-bold mb-8 text-primary">Lessons</h2>
                 <ul className="space-y-6">
                   {allLessons.map((l: Lesson) => {
                     // เช็คว่าเป็นบทเรียนปัจจุบันหรือไม่
@@ -166,12 +181,12 @@ export default function LearnPage() {
                           href={`/courses/${courseId}/learn/${slugify(l.title)}`}
                           className={`block py-2 px-3 rounded transition-all duration-200 ${
                             isCurrentLesson
-                              ? 'bg-gradient-to-r from-gray-600 to-gray-700 text-white font-semibold text-xl shadow-lg border-l-4 border-primary' // สีเด่นพร้อม gradient และ border
-                              : 'text-primary text-2xl hover:bg-gray-700 hover:pl-4' // สีปกติพร้อม animation
+                              ? 'bg-gradient-to-r from-gray-600 to-gray-700 text-white font-semibold shadow-lg border-l-4 border-primary' // สีเด่นพร้อม gradient และ border
+                              : 'text-primary hover:bg-gray-700 hover:pl-4' // สีปกติพร้อม animation
                           }`}
                         >
                           <div className="flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" className="text-white"/>
                             </svg>
                             {l.title}

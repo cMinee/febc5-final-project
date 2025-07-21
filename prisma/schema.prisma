@@ -35,7 +35,17 @@ model Lesson {
   content     String
   videoUrl    String?  // optional video link
   courseId    String   @db.ObjectId
-  courses      Course  @relation("CourseLessons", fields: [courseId], references: [id])
+  courses     Course  @relation("CourseLessons", fields: [courseId], references: [id])
+  duration    Int?
 
   @@map("lessons")
+}
+
+model Progress {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  lessonId  String   @db.ObjectId
+  completed Boolean
+
+  @@map("progress")
 }

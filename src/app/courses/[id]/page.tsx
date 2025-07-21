@@ -11,6 +11,9 @@ export default function CourseDetailPage() {
   const [loading, setLoading] = useState(true);
   const [course, setCourse] = useState<CourseDetail[]>([]);
   const [lessons, setLessons] = useState<SubSection[]>([]);
+  // const videoRef = useRef<HTMLVideoElement>(null);
+  // const [duration, setDuration] = useState<number | null>(null);
+
 
   useEffect(() => {
     fetch(`/api/admin/courses/${courseId}`)
@@ -70,6 +73,7 @@ export default function CourseDetailPage() {
                   className="flex justify-between items-center py-2 border-b border-gray-700"
                 >
                   <p className="w-1/2 font-semibold">{sub.title}</p>
+                  
                   <button
                     onClick={() => {
                       window.location.href = `/courses/${courseId}/learn/${slugify(sub.title)}`;

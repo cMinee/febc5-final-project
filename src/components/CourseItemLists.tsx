@@ -25,7 +25,7 @@ export default function CourseItemLists() {
         }
     }
     useEffect(() => {
-        fetchCourses();
+        fetchCourses(); 
     }, []);
 
     const filteredCourses = onlineCourses.filter((course) =>
@@ -96,7 +96,7 @@ export default function CourseItemLists() {
             {isLoading ? (
                 <div className="text-center text-gray-500">Loading...</div>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {selectedCourses.map((course) => (
                         <div key={course.id} className="bg-white border-fourth border rounded-lg shadow-md p-4 cursor-pointer flex flex-col justify-between h-full" onClick={() => window.location.href = `/courses/${course.id}`}>
                             <div>
