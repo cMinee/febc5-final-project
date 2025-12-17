@@ -6,6 +6,13 @@
       "password": "password123",
       "name": "Test User",
       "role": "user"
+    },
+    {
+      "id": "1765954816220",
+      "email": "may@gmail.com",
+      "password": "P@ssw0rd2025",
+      "name": "May",
+      "role": "user"
     }
   ],
   "courses": [
