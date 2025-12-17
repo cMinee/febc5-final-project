@@ -1,12 +1,6 @@
-import { PrismaClient } from "@prisma/client"
+import { db } from "../db";
 
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined
-}
+// Export db as prisma to mock the client
+export const prisma = db as any;
 
-export const prisma =
-  globalForPrisma.prisma ?? new PrismaClient()
-
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma
-
-export default prisma
+export default prisma;

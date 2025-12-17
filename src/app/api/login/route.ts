@@ -1,30 +1,26 @@
-// src/app/api/login/route.ts
-import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+import { NextResponse } from 'next/server';
+import { db } from '@/app/db';
 
-const SECRET = process.env.JWT_SECRET || "mysecret";
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const { email, password } = body;
 
-export async function POST(req: NextRequest) {
-  const { userId } = await req.json();
+    // ค้นหา user จากไฟล์ JSON
+    const user = await db.user.findFirst({
+      where: { email, password }
+    });
 
-  if (!userId) {
-    return NextResponse.json({ error: "Missing userId" }, { status: 400 });
+    if (!user) {
+      return NextResponse.json({ error: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' }, { status: 401 });
+    }
+
+    // ส่งข้อมูล user กลับไป (ตัด password ออกเพื่อความปลอดภัย)
+    const { password: _, ...userWithoutPassword } = user;
+    
+    return NextResponse.json({ message: 'เข้าสู่ระบบสำเร็จ', user: userWithoutPassword });
+
+  } catch (error) {
+    return NextResponse.json({ error: 'เกิดข้อผิดพลาดในระบบ' }, { status: 500 });
   }
-
-  const token = jwt.sign({ userId }, SECRET, { expiresIn: "1h" })
-
-  const response = NextResponse.json({
-    success: true,
-    userId,
-  })
-
-  response.cookies.set("token", token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-    maxAge: 60 * 60,
-    path: "/",
-  })
-
-  return response
 }

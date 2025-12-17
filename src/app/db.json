@@ -1,0 +1,48 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "test@example.com",
+      "password": "password123",
+      "name": "Test User",
+      "role": "user"
+    }
+  ],
+  "courses": [
+    {
+      "id": "1",
+      "name": "คอร์สเรียน React พื้นฐาน",
+      "description": "เรียนรู้การใช้งาน React ตั้งแต่เริ่มต้น",
+      "price": 1500,
+      "category": "Programming",
+      "img": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&auto=format&fit=crop&q=60"
+    },
+    {
+      "id": "2",
+      "name": "Advanced Node.js",
+      "description": "เจาะลึกการทำงานของ Node.js และ Backend Development",
+      "price": 2000,
+      "category": "Backend",
+      "img": "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=800&auto=format&fit=crop&q=60"
+    },
+    {
+      "id": "3",
+      "name": "Basic UI/UX Design",
+      "description": "พื้นฐานการออกแบบหน้าเว็บและแอปพลิเคชัน",
+      "price": 1200,
+      "category": "Design",
+      "img": "https://images.unsplash.com/photo-1586717791821-3f44a5638d48?w=800&auto=format&fit=crop&q=60"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "101",
+      "title": "Introduction to React",
+      "content": "Welcome to the course...",
+      "videoUrl": "https://example.com/video1.mp4",
+      "courseId": "1",
+      "duration": 10
+    }
+  ],
+  "progress": []
+}

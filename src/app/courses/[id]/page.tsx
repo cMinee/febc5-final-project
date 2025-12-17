@@ -1,16 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Layout from "@/components/Layout";
-import { CourseDetail, SubSection } from "@prisma/client";
+import { Course, Lesson } from "../../db";
+
+function slugify(text: string) {
+  return text.toLowerCase().replace(/\s+/g, '-');
+}
 
 export default function CourseDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const courseId = params?.id;
   const [loading, setLoading] = useState(true);
-  const [course, setCourse] = useState<CourseDetail[]>([]);
-  const [lessons, setLessons] = useState<SubSection[]>([]);
+  const [course, setCourse] = useState<Course>({} as Course);
+  const [lessons, setLessons] = useState<Lesson[]>([]);
   // const videoRef = useRef<HTMLVideoElement>(null);
   // const [duration, setDuration] = useState<number | null>(null);
 
@@ -22,7 +27,7 @@ export default function CourseDetailPage() {
         return res.json();
       })
       .then((data) => setCourse(data))
-      .catch(() => setCourse([]))
+      .catch(() => setCourse({} as Course))
       .finally(() => setLoading(false));
   }, [courseId]);
 
@@ -38,10 +43,6 @@ export default function CourseDetailPage() {
 
   if (loading) return <p>Loading...</p>;
 
-  function slugify(text: string) {
-    return text.toLowerCase().replace(/\s+/g, '-');
-  }
-
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">
@@ -50,11 +51,10 @@ export default function CourseDetailPage() {
             src={course.img}
             alt={course.name}
             className="object-cover w-full h-full rounded-xl"
-            property="true"
           />
 
           <div className="absolute inset-0 flex flex-col justify-end items-start px-20 pb-10 text-white">
-            <button className="lg:text-2xl font-semibold px-6 py-3 bg-secondary text-white rounded-full border-fourth border-4" onClick={() => window.location.href = `/courses/${courseId}/learn/${slugify(lessons[0]?.title || '')}`}>
+            <button className="lg:text-2xl font-semibold px-6 py-3 bg-secondary text-white rounded-full border-fourth border-4" onClick={() => router.push(`/courses/${courseId}/learn/${slugify(lessons[0]?.title || '')}`)}>
               Start Learning
             </button>
           </div>
@@ -76,9 +76,9 @@ export default function CourseDetailPage() {
                   
                   <button
                     onClick={() => {
-                      window.location.href = `/courses/${courseId}/learn/${slugify(sub.title)}`;
+                      router.push(`/courses/${courseId}/learn/${slugify(sub.title)}`);
                     }}
-                    className={"w-20 py-1 rounded border border-gray-400 text-center bg-blue-500 hover:bg-blue-600 text-fourth'"}
+                    className={"w-20 py-1 rounded border border-gray-400 text-center bg-blue-500 hover:bg-blue-600 text-fourth"}
                   >
                     Start
                   </button>
