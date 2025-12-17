@@ -54,7 +54,7 @@
       "id": "1765956525250",
       "name": "Basic Python",
       "description": "เรียน Python เริ่มต้น",
-      "price": 500,
+      "price": "free",
       "category": "Programming",
       "img": "https://miro.medium.com/v2/resize:fit:840/1*RJMxLdTHqVBSijKmOO5MAg.jpeg",
       "createdAt": "2025-12-17T07:22:05.250Z"
