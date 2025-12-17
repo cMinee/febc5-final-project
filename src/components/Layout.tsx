@@ -8,7 +8,7 @@ import ProfileCard from "./ProfileCard"
 const navigation = [
   { name: 'Home', href: '/', current: true },
   { name: 'All Courses', href: '/courses', current: false },
-  { name: 'My Courses', href: '#', current: false },
+  { name: 'My Courses', href: '/my-courses', current: false },
 ]
 
 function classNames(...classes: string[]) {

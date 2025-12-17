@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Course } from "@prisma/client";
+import { Course } from "@/app/db";
 
 interface CourseItemListsProps {
   limit?: number;
