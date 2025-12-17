@@ -58,19 +58,19 @@ export default function LoginPage() {
             placeholder="Email"
             value={email}
             onChange={e => setEmail(e.target.value)}
-            className="w-full p-3 rounded-lg bg-primary"
+            className="login-text login-container"
           />
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={e => setPassword(e.target.value)}
-            className="w-full p-3 rounded-lg bg-primary"
+            className="login-text login-container"
           />
           <a className="flex justify-end text-fourth" href="#">Forgot password?</a>
           <br />
           <br />
-          <button type="submit" className="w-full bg-secondary p-3 rounded-lg text-primary text-xl font-bold shadow-lg" disabled={isLoggedIn}>{isLoggedIn ? "Signing in..." : "Sign in"}</button>
+          <button type="submit" className="login-container login-text-btn" disabled={isLoggedIn}>{isLoggedIn ? "Signing in..." : "Sign in"}</button>
         </form>
         {/* <br />
         <button onClick={() => router.push("/pages/register")} className="w-50 mx-auto justify-center bg-green-500 p-2 rounded">Register</button> */}

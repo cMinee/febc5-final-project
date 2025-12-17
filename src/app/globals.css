@@ -9,6 +9,8 @@
   --foreground: #1e293b;
   --gradient-start: #f0f9ff;
   --gradient-end: #e0f2fe;
+  --primary: #0ea5e9;
+  --secondary-900: #0f172a;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,6 +19,8 @@
     --foreground: #f1f5f9;
     --gradient-start: #1e293b;
     --gradient-end: #334155;
+    --primary: #38bdf8;
+    --secondary-900: #f8fafc;
   }
 }
 
@@ -67,4 +71,23 @@ html {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+.login-text {
+  background: var(--primary);
+  color: var(--secondary-900);
+}
+
+.login-container {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+}
+
+.login-text-btn {
+  background: var(--primary);
+  color: var(--secondary-900);
+  font-size: x-large;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
