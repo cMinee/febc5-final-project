@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, notFound } from "next/navigation";
+import { useParams, notFound, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Layout from "@/components/Layout";
 
@@ -25,14 +25,18 @@ function slugify(text: string) {
 
 export default function LearnPage() {
   const params = useParams();
+  const router = useRouter();
   const courseId = params?.id as string;
   const slugTitle = decodeURIComponent((params?.slug as string)?.toLowerCase().replace(/-/g, " "));
 
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [allLessons, setAllLessons] = useState<Lesson[]>([]);
   const [loading, setLoading] = useState(true);
+  const [completedLessons, setCompletedLessons] = useState<string[]>([]);
+  
+  // Mock User ID (ในระบบจริงควรดึงจาก Session)
+  const userId = "1";
 
-  // const [progress, setProgress] = useState<Progress | null>(null);
 
   useEffect(() => {
     const fetchLesson = async () => {
@@ -56,9 +60,10 @@ export default function LearnPage() {
         setLesson(data);
 
         // 4. โหลดข้อมูลความคืบหน้า
-        // const resProgress = await fetch(`/api/progress`);
-        // const progressData = await resProgress.json();
-        // setProgress(progressData);
+        const resProgress = await fetch(`/api/progress?userId=${userId}`);
+        const progressData: Progress[] = await resProgress.json();
+        const completedIds = progressData.filter(p => p.completed).map(p => p.lessonId);
+        setCompletedLessons(completedIds);
 
       } catch (err) {
         console.error("❌ Error loading lesson:", err);
@@ -70,91 +75,141 @@ export default function LearnPage() {
     if (courseId) fetchLesson();
   }, [courseId, slugTitle]);
 
+  // คำนวณ Progress Percentage
+  const progressPercentage = allLessons.length > 0 
+    ? Math.round((completedLessons.length / allLessons.length) * 100) 
+    : 0;
+
+  // ฟังก์ชันบันทึก Progress และไปบทเรียนถัดไป
+  const handleCompleteAndNext = async (nextLesson: Lesson | null) => {
+    if (!lesson) return;
+
+    // 1. บันทึก Progress ลง DB
+    try {
+      await fetch('/api/progress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId,
+          lessonId: lesson.id,
+          completed: true
+        })
+      });
+
+      // 2. อัปเดต State ทันทีเพื่อให้ UI เปลี่ยน
+      if (!completedLessons.includes(lesson.id)) {
+        setCompletedLessons([...completedLessons, lesson.id]);
+      }
+
+      // 3. ไปหน้าถัดไป
+      if (nextLesson) {
+        router.push(`/courses/${courseId}/learn/${slugify(nextLesson.title)}`);
+      }
+    } catch (error) {
+      console.error("Failed to save progress", error);
+    }
+  };
+
   // prev next lesson
   const currentIndex = allLessons.findIndex((l) => l.id === lesson?.id);
   const next = currentIndex !== -1 ? allLessons[currentIndex + 1] : null;
+  const prev = currentIndex > 0 ? allLessons[currentIndex - 1] : null;
 
   if (loading) return <p>Loading...</p>;
   if (!lesson) return notFound();
 
   return (
     <Layout>
-      <div className="p-8 text-fourth">
-        <div className="flex align-center mb-4">
-          <a href={`/courses/${courseId}`} className="text-fourth hover:underline mr-4">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="size-8">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+        {/* Header */}
+        <div className="flex items-center gap-4 mb-6">
+          <button onClick={() => router.push(`/courses/${courseId}`)} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-gray-600 dark:text-gray-300">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
             </svg>
-          </a>
-          <h1 className="text-2xl font-bold mb-4">{lesson.title}</h1>
+          </button>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white truncate">{lesson.title}</h1>
         </div>
 
-        {/* row and 2 column */}
-        <div> 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"> 
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8"> 
             {/* Video and Navigation Column - Takes 2 columns on large screens */}
             <div className="lg:col-span-2"> 
-              {lesson.videoUrl.includes("youtube.com") ? ( 
-                <iframe 
-                  className="w-full aspect-video rounded-lg" 
-                  src={lesson.videoUrl} 
-                  title={lesson.title} 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                  allowFullScreen 
-                /> 
-              ) : ( 
-                <video controls className="w-full rounded-lg"> 
-                  <source src={lesson.videoUrl} type="video/mp4" /> 
-                </video> 
-              )} 
+              <div className="bg-black rounded-xl overflow-hidden shadow-lg aspect-video mb-6">
+                {lesson.videoUrl.includes("youtube.com") ? ( 
+                  <iframe 
+                    className="w-full h-full" 
+                    src={lesson.videoUrl} 
+                    title={lesson.title} 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowFullScreen 
+                  /> 
+                ) : ( 
+                  <video controls className="w-full h-full" key={lesson.videoUrl}> 
+                    <source src={lesson.videoUrl} type="video/mp4" /> 
+                    Your browser does not support the video tag.
+                  </video> 
+                )} 
+              </div>
 
               {lesson.content && ( 
-                <div className="mt-4 text-primary whitespace-pre-wrap"> 
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 mb-6">
+                  <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Lesson Description</h3>
+                  <p className="text-gray-600 dark:text-gray-300 whitespace-pre-wrap leading-relaxed"> 
                   {lesson.content} 
-                </div> 
+                  </p>
+                </div>
               )} 
 
               {/* prev next button */} 
-              <div className="flex justify-between mt-6"> 
-                {currentIndex > 0 && ( 
-                  <button 
-                    className="flex items-center text-fourth font-semibold px-6 py-2 rounded-full" 
-                    onClick={() => 
-                      window.location.href = `/courses/${courseId}/learn/${slugify(allLessons[currentIndex - 1].title)}` 
-                    } 
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="size-4 text-fourth">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                    </svg>
-                    Prev 
-                  </button> 
-                )} 
+              <div className="flex justify-between items-center"> 
+                <button 
+                  disabled={!prev}
+                  className={`flex items-center px-6 py-3 rounded-lg font-medium transition-colors ${
+                    prev 
+                      ? 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 border border-gray-200 dark:border-gray-700 shadow-sm' 
+                      : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  }`}
+                  onClick={() => prev && router.push(`/courses/${courseId}/learn/${slugify(prev.title)}`)}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 mr-2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                  </svg>
+                  Previous
+                </button> 
 
-                {next && ( 
+                {next ? ( 
                   <button 
-                    className="flex items-center text-fourth font-semibold px-6 py-2 rounded-full" 
-                    onClick={() => 
-                      window.location.href = `/courses/${courseId}/learn/${slugify(next.title)}` 
-                    } 
+                    className="flex items-center bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 shadow-md transition-all hover:shadow-lg" 
+                    onClick={() => handleCompleteAndNext(next)}
                   >
-                    Next 
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="size-4 text-fourth">
+                    Next Lesson
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 ml-2">
                       <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                     </svg>
                   </button> 
-                )} 
+                ) : (
+                  <button 
+                    className="flex items-center bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 shadow-md" 
+                    onClick={() => handleCompleteAndNext(null)}
+                  >
+                    Finish Course
+                  </button> 
+                )}
               </div>
-              <div className="mt-6 bg-tertiary border-fourth border p-4 rounded-lg">
-                <p className="text-2xl font-bold mb-4 text-fourth">Comment</p>
+              
+              {/* Comment Section (Simplified UI) */}
+              <div className="mt-8 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+                <h3 className="text-lg font-bold mb-4 text-gray-900 dark:text-white">Discussion</h3>
 
                 <textarea
                   placeholder="Any idea or if you have any question?"
-                  className="w-full md:text-xl h-40 p-4 rounded-lg border border-fourth focus:outline-none focus:ring-2 focus:ring-fourth resize-none text-fourth"
+                  className="w-full p-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none text-gray-900 dark:text-white"
+                  rows={4}
                 />
 
                 <div className="flex items-end text-end justify-end">
                   <button
-                    className="md:text-xl bg-secondary text-primary px-6 py-2 rounded-lg hover:shadow-lg hover:border-fourth hover:border transition-colors mt-4"
+                    className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors mt-4 font-medium"
                   > Post
                   </button>
                 </div>
@@ -163,39 +218,58 @@ export default function LearnPage() {
             </div> 
             
             {/* Lessons Sidebar - Takes 1 column */}
-            <div className="lg:col-span-1">
-              <div className="bg-primary border-fourth border p-4 rounded-lg top-4">
-                <h2 className="text-xl font-bold mb-4 text-fourth">Progress</h2>
-                <progress className="progress progress-warning w-full rounded-full bg-secondary" value={50} max="100"></progress>
-              </div>
-              <div className="bg-fourth p-4 rounded-lg top-4 mt-3 min-h-screen">
-                <h2 className="text-xl font-bold mb-8 text-primary">Lessons</h2>
-                <ul className="space-y-6">
-                  {allLessons.map((l: Lesson) => {
-                    // เช็คว่าเป็นบทเรียนปัจจุบันหรือไม่
+            <div className="lg:col-span-1 space-y-6">
+              {/* Progress Card */}
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 sticky top-24">
+                <div className="flex justify-between items-center mb-2">
+                  <h2 className="text-lg font-bold text-gray-900 dark:text-white">Course Progress</h2>
+                  <span className="text-sm font-semibold text-indigo-600 dark:text-indigo-400">{progressPercentage}%</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mb-6">
+                  <div className="bg-indigo-600 h-2.5 rounded-full transition-all duration-500" style={{ width: `${progressPercentage}%` }}></div>
+                </div>
+
+                <h3 className="text-md font-semibold mb-4 text-gray-700 dark:text-gray-300">Lessons</h3>
+                <div className="space-y-2 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+                  {allLessons.map((l: Lesson, index) => {
                     const isCurrentLesson = l.id === lesson?.id;
+                    const isCompleted = completedLessons.includes(l.id);
                     
                     return (
-                      <li key={l.id}>
-                        <a
-                          href={`/courses/${courseId}/learn/${slugify(l.title)}`}
-                          className={`block py-2 px-3 rounded transition-all duration-200 ${
-                            isCurrentLesson
-                              ? 'bg-gradient-to-r from-gray-600 to-gray-700 text-white font-semibold shadow-lg border-l-4 border-primary' // สีเด่นพร้อม gradient และ border
-                              : 'text-primary hover:bg-gray-700 hover:pl-4' // สีปกติพร้อม animation
-                          }`}
-                        >
-                          <div className="flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" className="text-white"/>
+                      <button
+                        key={l.id}
+                        onClick={() => router.push(`/courses/${courseId}/learn/${slugify(l.title)}`)}
+                        className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-200 border ${
+                          isCurrentLesson
+                            ? 'bg-indigo-50 dark:bg-indigo-900/30 border-indigo-200 dark:border-indigo-800 shadow-sm' 
+                            : 'bg-white dark:bg-gray-800 border-transparent hover:bg-gray-50 dark:hover:bg-gray-700'
+                        }`}
+                      >
+                        <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mr-3 text-xs font-bold ${
+                          isCompleted 
+                            ? 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400' 
+                            : isCurrentLesson 
+                              ? 'bg-indigo-100 text-indigo-600 dark:bg-indigo-900/50 dark:text-indigo-400'
+                              : 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400'
+                        }`}>
+                          {isCompleted ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                              <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd" />
                             </svg>
-                            {l.title}
-                          </div>
-                        </a>
-                      </li>
+                          ) : (
+                            index + 1
+                          )}
+                        </div>
+                        <span className={`text-sm font-medium truncate ${isCurrentLesson ? 'text-indigo-700 dark:text-indigo-300' : 'text-gray-700 dark:text-gray-300'}`}>
+                          {l.title}
+                        </span>
+                        {l.duration && (
+                          <span className="ml-auto text-xs text-gray-400">{l.duration}m</span>
+                        )}
+                      </button>
                     );
                   })}
-                </ul>
+                </div>
               </div>
             </div>
           </div> 

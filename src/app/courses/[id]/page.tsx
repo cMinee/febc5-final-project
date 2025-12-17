@@ -45,63 +45,107 @@ export default function CourseDetailPage() {
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-8">
-        <div className="relative w-full h-96 mb-8">
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        {/* Hero Section */}
+        <div className="relative w-full h-64 md:h-96 mb-8 rounded-2xl overflow-hidden shadow-xl">
           <img
             src={course.img}
             alt={course.name}
             className="object-cover w-full h-full rounded-xl"
           />
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
-          <div className="absolute inset-0 flex flex-col justify-end items-start px-20 pb-10 text-white">
-            <button className="lg:text-2xl font-semibold px-6 py-3 bg-secondary text-white rounded-full border-fourth border-4" onClick={() => router.push(`/courses/${courseId}/learn/${slugify(lessons[0]?.title || '')}`)}>
+          <div className="absolute inset-0 flex flex-col justify-end items-start p-6 md:p-10 text-white">
+            <button 
+              className="text-lg md:text-xl font-semibold px-8 py-3 bg-secondary hover:bg-opacity-90 text-white rounded-full transition-transform hover:scale-105 shadow-lg border-2 border-white/20 backdrop-blur-sm" 
+              onClick={() => router.push(`/courses/${courseId}/learn/${slugify(lessons[0]?.title || '')}`)}
+            >
               Start Learning
             </button>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Description Course */}
-          <div className="col-span-2 bg-fourth text-primary rounded-lg p-6">
-            <p className="text-4xl font-semibold text-secondary">{course.name}</p>
-            <p className="text-xl mt-4 mb-10">{course.description}</p>
-            <div className="grid gap-4">
-              <div className="text-2xl text-tertiary font-bold mb-2">Lessons</div>
-              {lessons.map((sub) => (
-                <div
-                  key={sub.id}
-                  className="flex justify-between items-center py-2 border-b border-gray-700"
-                >
-                  <p className="w-1/2 font-semibold">{sub.title}</p>
-                  
-                  <button
-                    onClick={() => {
-                      router.push(`/courses/${courseId}/learn/${slugify(sub.title)}`);
-                    }}
-                    className={"w-20 py-1 rounded border border-gray-400 text-center bg-blue-500 hover:bg-blue-600 text-fourth"}
+          <div className="lg:col-span-2 bg-white dark:bg-gray-900 rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100 dark:border-gray-800">
+            <h1 className="text-3xl md:text-4xl font-bold text-secondary mb-4">{course.name}</h1>
+            <p className="text-base md:text-lg leading-relaxed text-gray-600 dark:text-gray-300 mb-8">
+              {course.description}
+            </p>
+            
+            <div className="space-y-4">
+              <h2 className="text-2xl font-bold text-tertiary mb-6 flex items-center gap-2 border-b pb-2">
+                Course Content
+                <span className="text-sm font-normal text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-full ml-auto">
+                  {lessons.length} lessons
+                </span>
+              </h2>
+              
+              <div className="space-y-3">
+                {lessons.map((sub, index) => (
+                  <div
+                    key={sub.id}
+                    className="group flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800 border border-transparent hover:border-gray-200 dark:hover:border-gray-700 hover:shadow-md transition-all duration-200"
                   >
-                    Start
-                  </button>
-                </div>
-              ))}
+                    <div className="flex items-center gap-4 mb-3 sm:mb-0">
+                      <span className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-medium text-sm">
+                        {index + 1}
+                      </span>
+                      <p className="font-medium text-gray-800 dark:text-gray-200 group-hover:text-secondary transition-colors">
+                        {sub.title}
+                      </p>
+                    </div>
+                    
+                    <button
+                      onClick={() => {
+                        router.push(`/courses/${courseId}/learn/${slugify(sub.title)}`);
+                      }}
+                      className="w-full sm:w-auto px-6 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium transition-colors shadow-sm"
+                    >
+                      Start
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           {/* About this course */}
-          <div className="rounded-lg p-6 text-primary bg-fourth h-auto">
-            <p className="text-2xl font-bold mb-4">About this course</p>
-            <p className="flex items-center gap-3 text-md mt-3">
-              <img className="w-8 h-8" src="/time.png" alt="" />
-              4-5 hours
-            </p>
-            {/* count lessons */}
-            <p className="flex items-center gap-3 text-md mt-3">
-              <img className="w-8 h-8" src="/lessons.png" alt="" />
-              {lessons.length} lessons
-            </p>
-            <p className="flex items-center gap-3 text-md mt-3">
-              <img className="w-8 h-8" src="/practices.png" alt="" /> 
-              1 Practices
-            </p>
+          <div className="lg:col-span-1">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 md:p-8 sticky top-8 shadow-sm border border-gray-100 dark:border-gray-800">
+              <h3 className="text-xl font-bold mb-6 text-gray-800 dark:text-white">About this course</h3>
+              <div className="space-y-5">
+                <div className="flex items-center gap-4">
+                  <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                    <img className="w-6 h-6" src="/time.png" alt="" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Duration</p>
+                    <p className="font-medium text-gray-800 dark:text-gray-200">4-5 hours</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-4">
+                  <div className="p-2 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                    <img className="w-6 h-6" src="/lessons.png" alt="" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Lessons</p>
+                    <p className="font-medium text-gray-800 dark:text-gray-200">{lessons.length} lessons</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <div className="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                    <img className="w-6 h-6" src="/practices.png" alt="" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Practice</p>
+                    <p className="font-medium text-gray-800 dark:text-gray-200">1 Project</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

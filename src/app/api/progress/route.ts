@@ -1,16 +1,12 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/app/lib/prisma';
+import { db } from '@/app/db';
 
-export async function POST(req: Request) {
-  const body = await req.json()
-  
-  try {
-    const newProgress = await prisma.progress.create({
-      data: body
-    })
-    return NextResponse.json(newProgress);
-  } catch (error) {
-    console.error('Error creating progress:', error);
-    return NextResponse.json({ message: 'Error creating progress' }, { status: 500 });
-  }
+export async function GET(
+  request: Request,
+  { params }: { params: { lessonId: string } }
+) {
+  const lesson = await db.lesson.findUnique({
+    where: { id: params.lessonId }
+  });
+  return NextResponse.json(lesson || {});
 }
