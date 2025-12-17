@@ -40,11 +40,20 @@ export interface Progress {
   [key: string]: any;
 }
 
+export interface SavedCourse {
+  id: string;
+  userId: string;
+  courseId: string;
+  savedAt: string;
+  [key: string]: any;
+}
+
 interface DbSchema {
   users: User[];
   courses: Course[];
   lessons: Lesson[];
   progress: Progress[];
+  savedCourses: SavedCourse[];
 }
 
 // ฟังก์ชันอ่านข้อมูล
@@ -54,7 +63,7 @@ async function readDb(): Promise<DbSchema> {
     return JSON.parse(data);
   } catch (error) {
     // ถ้ายังไม่มีไฟล์ ให้คืนค่าว่าง
-    return { users: [], courses: [], lessons: [], progress: [] };
+    return { users: [], courses: [], lessons: [], progress: [], savedCourses: [] };
   }
 }
 
@@ -148,4 +157,5 @@ export const db = {
   course: createModelHandler('courses'),
   lesson: createModelHandler('lessons'),
   progress: createModelHandler('progress'),
+  savedCourse: createModelHandler('savedCourses'),
 };

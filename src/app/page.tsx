@@ -11,7 +11,7 @@ export default async function Home() {
     <Layout>
       <BlogCarousel courses={courses} />
       <div className="mt-8">
-        <CourseItemLists />
+        <CourseItemLists limit={8} title="New Courses" hideSearch={true} showSeeMore={true} />
       </div>
     </Layout>
   )

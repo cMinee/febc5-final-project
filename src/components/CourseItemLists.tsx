@@ -2,13 +2,25 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Course } from "@prisma/client";
 
-export default function CourseItemLists() {
+interface CourseItemListsProps {
+  limit?: number;
+  title?: string;
+  hideSearch?: boolean;
+  showSeeMore?: boolean;
+  courses?: Course[];
+  disableSorting?: boolean;
+}
+
+export default function CourseItemLists({ limit, title, hideSearch, showSeeMore, courses, disableSorting }: CourseItemListsProps) {
+    const router = useRouter();
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [onlineCourses, setOnlineCourses] = useState<Course[]>([]);
+    const [onlineCourses, setOnlineCourses] = useState<Course[]>(courses || []);
 
     const fetchCourses = async () => {
         setIsLoading(true);
@@ -25,8 +37,12 @@ export default function CourseItemLists() {
     }
 
     useEffect(() => {
-        fetchCourses(); 
-    }, []);
+        if (!courses) {
+            fetchCourses(); 
+        } else {
+            setOnlineCourses(courses);
+        }
+    }, [courses]);
 
     const filteredCourses = onlineCourses.filter((course) =>
         (course.name?.toLowerCase() || "").includes(searchQuery.toLowerCase())
@@ -43,24 +59,25 @@ export default function CourseItemLists() {
         setSelectedCategory(selectedCategory === category ? "" : category);
     };
 
-    // เรียงคอร์สตาม createdAt จากใหม่ไปเก่า
-    const sortedCourses = [...onlineCourses].sort((a, b) => {
+    // เรียงคอร์สตาม createdAt จากใหม่ไปเก่า ถ้าไม่ได้ disableSorting
+    const sortedCourses = disableSorting ? [...onlineCourses] : [...onlineCourses].sort((a, b) => {
         const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
         const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
         return dateB - dateA; // เรียงจากมากไปน้อย (ใหม่ไปเก่า)
     });
 
-    const selectedCourses = selectedCategory
+    const coursesToDisplay = selectedCategory
         ? sortedCourses.filter(course => course.category === selectedCategory)
         : sortedCourses;
+    
+    const selectedCourses = limit ? coursesToDisplay.slice(0, limit) : coursesToDisplay;
 
     const categories = Array.from(new Set(onlineCourses.map(course => course.category)));
-
-
 
     return (
         <div className="w-full">
             {/* Search Section */}
+            {!hideSearch && (
             <div className="mb-8">
                 <div className="relative max-w-2xl">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -89,12 +106,12 @@ export default function CourseItemLists() {
                                     <div 
                                         key={course.id} 
                                         className="p-4 border-b border-secondary-100 last:border-0 cursor-pointer hover:bg-primary-50 transition-colors duration-200" 
-                                        onClick={() => window.location.href = `/courses/${course.id}`}
+                                        onClick={() => router.push(`/courses/${course.id}`)}
                                     >
                                         <div className="flex items-center gap-4">
                                             <div className="relative w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden shadow-soft">
                                                 <Image 
-                                                    src={course.img} 
+                                                    src={course.img || ""} 
                                                     alt={course.name} 
                                                     fill
                                                     className="object-cover"
@@ -125,16 +142,17 @@ export default function CourseItemLists() {
                     </div>
                 )}
             </div>
+            )}
 
             {/* Category Filter */}
-            {categories.length > 0 && (
+            {!hideSearch && categories.length > 0 && (
                 <div className="mb-8">
                     <h3 className="text-sm font-semibold text-secondary-700 uppercase tracking-wider mb-4">Filter by Category</h3>
                     <div className="flex flex-wrap gap-3">
                         {categories.map((category) => (
                             <button
                                 key={category}
-                                onClick={() => handleCategoryChange(category)}
+                                onClick={() => handleCategoryChange(category || "")}
                                 className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 
                                     ${selectedCategory === category 
                                         ? 'bg-primary-500 text-white shadow-soft-lg transform scale-105' 
@@ -159,11 +177,21 @@ export default function CourseItemLists() {
             {/* Course List Header */}
             <div className="flex items-center justify-between mb-6">
                 <h2 className="text-3xl font-display font-bold text-secondary-900">
-                    {selectedCategory ? `${selectedCategory} Courses` : 'All Courses'}
+                    {title || (selectedCategory ? `${selectedCategory} Courses` : 'All Courses')}
                 </h2>
-                <span className="text-sm text-secondary-500 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-secondary-200">
-                    {selectedCourses.length} {selectedCourses.length === 1 ? 'course' : 'courses'}
-                </span>
+                {showSeeMore && (
+                    <Link href="/courses" className="text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1 transition-colors">
+                        See all courses
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                        </svg>
+                    </Link>
+                )}
+                {!showSeeMore && (
+                    <span className="text-sm text-secondary-500 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-secondary-200">
+                        {coursesToDisplay.length} {coursesToDisplay.length === 1 ? 'course' : 'courses'}
+                    </span>
+                )}
             </div>
 
             {/* Course Grid */}
@@ -194,12 +222,12 @@ export default function CourseItemLists() {
                                        overflow-hidden cursor-pointer transition-all duration-300 
                                        hover:transform hover:scale-[1.02] border border-secondary-100/50
                                        flex flex-col h-full"
-                            onClick={() => window.location.href = `/courses/${course.id}`}
+                            onClick={() => router.push(`/courses/${course.id}`)}
                         >
                             {/* Course Image */}
                             <div className="relative w-full h-52 overflow-hidden bg-secondary-100">
                                 <Image 
-                                    src={course.img} 
+                                    src={course.img || ""} 
                                     alt={course.name} 
                                     fill
                                     className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -234,7 +262,7 @@ export default function CourseItemLists() {
                                                group-hover:transform group-hover:translate-y-[-2px]"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        window.location.href = `/courses/${course.id}`;
+                                        router.push(`/courses/${course.id}`);
                                     }}
                                 >
                                     <span>Learn More</span>
