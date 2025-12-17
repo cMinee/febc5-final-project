@@ -178,7 +178,8 @@ export default function PurchaseModal({ course, isOpen, onClose, onPurchaseCompl
                                     <div className="relative w-48 h-48 bg-white p-2 shadow-sm rounded-lg mb-4">
                                         {/* Mock QR placeholder */}
                                         <div className="w-full h-full bg-gray-900 flex items-center justify-center text-white text-xs">
-                                             [QR Code Image]
+                                            {/* <QrCodeIcon className="w-12 h-12" /> */}
+                                            <img src="../Payment-example.png" alt="Payment Example" />
                                         </div>
                                     </div>
                                     <p className="text-xs text-gray-400">Ref: {course.id}-{userId.slice(-4)}</p>
