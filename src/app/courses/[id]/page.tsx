@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Layout from "@/components/Layout";
-import { Course, Lesson } from "../../db";
+import { Course, Lesson, Progress } from "../../db";
 
 function slugify(text: string) {
   return text.toLowerCase().replace(/\s+/g, '-');
@@ -18,6 +18,7 @@ export default function CourseDetailPage() {
   const [loading, setLoading] = useState(true);
   const [course, setCourse] = useState<Course>({} as Course);
   const [lessons, setLessons] = useState<Lesson[]>([]);
+  const [progress, setProgress] = useState<Progress[]>([]);
   const [isSaved, setIsSaved] = useState(false);
   const [savingCourse, setSavingCourse] = useState(false);
   // const videoRef = useRef<HTMLVideoElement>(null);
@@ -43,17 +44,22 @@ export default function CourseDetailPage() {
     fetchLessons()
   }, [courseId]);
 
-  // ตรวจสอบว่า course นี้ถูก save ไว้แล้วหรือยัง
   const checkIfSaved = async () => {
     if (!session?.user?.id || !courseId) return;
     
     try {
-      const res = await fetch(`/api/saved-courses?userId=${session.user.id}`);
-      const savedCourses = await res.json();
+      // Check saved status
+      const resSaved = await fetch(`/api/saved-courses?userId=${session.user.id}`);
+      const savedCourses = await resSaved.json();
       const saved = savedCourses.some((c: any) => c.id === courseId);
       setIsSaved(saved);
+
+      // Fetch progress
+      const resProgress = await fetch(`/api/progress?userId=${session.user.id}`);
+      const myProgress: Progress[] = await resProgress.json();
+      setProgress(myProgress);
     } catch (error) {
-      console.error("Error checking saved status:", error);
+      console.error("Error checking status:", error);
     }
   };
 
@@ -196,14 +202,30 @@ export default function CourseDetailPage() {
                       </p>
                     </div>
                     
-                    <button
-                      onClick={() => {
-                        router.push(`/courses/${courseId}/learn/${slugify(sub.title)}`);
-                      }}
-                      className="w-full sm:w-auto px-6 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium transition-colors shadow-sm"
-                    >
-                      Start
-                    </button>
+                    <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                      {progress.find(p => p.lessonId === sub.id && p.completed) ? (
+                        <button
+                          onClick={() => {
+                            router.push(`/courses/${courseId}/learn/${slugify(sub.title)}`);
+                          }}
+                          className="w-full sm:w-auto px-6 py-2 rounded-lg bg-green-500 hover:bg-green-600 text-white text-sm font-medium transition-colors shadow-sm flex items-center justify-center gap-2"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                          </svg>
+                          Completed
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            router.push(`/courses/${courseId}/learn/${slugify(sub.title)}`);
+                          }}
+                          className="w-full sm:w-auto px-6 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium transition-colors shadow-sm"
+                        >
+                          Start
+                        </button>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>

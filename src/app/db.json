@@ -164,6 +164,12 @@
       "userId": "1",
       "lessonId": "101",
       "completed": true
+    },
+    {
+      "id": "1765961533439",
+      "userId": "1765954816220",
+      "lessonId": "101",
+      "completed": true
     }
   ],
   "savedCourses": [

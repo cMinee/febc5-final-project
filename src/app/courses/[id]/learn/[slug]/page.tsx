@@ -2,6 +2,7 @@
 
 import { useParams, notFound, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import Layout from "@/components/Layout";
 
 type Lesson = {
@@ -37,8 +38,8 @@ export default function LearnPage() {
   const [loading, setLoading] = useState(true);
   const [completedLessons, setCompletedLessons] = useState<string[]>([]);
   
-  // Mock User ID (ในระบบจริงควรดึงจาก Session)
-  const userId = "1";
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
 
 
   useEffect(() => {
@@ -76,7 +77,7 @@ export default function LearnPage() {
     };
 
     if (courseId) fetchLesson();
-  }, [courseId, slugTitle]);
+  }, [courseId, slugTitle, userId]);
 
   // คำนวณ Progress Percentage
   const progressPercentage = allLessons.length > 0 
