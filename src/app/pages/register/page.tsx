@@ -42,7 +42,7 @@ export default function RegisterPage() {
             placeholder="Fullname"
             value={name}
             onChange={e => setName(e.target.value)}
-            className="w-full p-3 rounded-lg bg-primary"
+            className="login-text login-container"
             autoComplete="name"
           />
           <input
@@ -50,7 +50,7 @@ export default function RegisterPage() {
             placeholder="Email"
             value={email}
             onChange={e => setEmail(e.target.value)}
-            className="w-full p-3 rounded-lg bg-primary"
+            className="login-text login-container"
             autoComplete="email"
           />
           <input
@@ -58,12 +58,12 @@ export default function RegisterPage() {
             placeholder="Password"
             value={password}
             onChange={e => setPassword(e.target.value)}
-            className="w-full p-3 rounded-lg bg-primary"
+            className="login-text login-container"
             autoComplete="current-password"
           />
           <br />
           <br />
-          <button type="submit" className="w-full bg-fourth text-primary font-bold p-3 rounded-lg shadow-lg">Register</button>
+          <button type="submit" className="login-container login-text-btn">Register</button>
           <br /><br />
           <p className="flex justify-center">Already have an account?&nbsp;
             <a 

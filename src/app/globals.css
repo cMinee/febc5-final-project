@@ -74,7 +74,7 @@ html {
 }
 
 .login-text {
-  background: var(--primary);
+  background: var(--primary-200);
   color: var(--secondary-900);
 }
 
