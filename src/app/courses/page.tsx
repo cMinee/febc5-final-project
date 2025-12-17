@@ -8,14 +8,11 @@ export default async function AllCoursesPage() {
   const allCourses = await db.course.findMany();
   const savedCourses = await db.savedCourse.findMany();
 
-  // New Courses (last 1 month)
-  const oneMonthAgo = new Date();
-  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-  
-  const newCourses = allCourses.filter(c => {
-    if (!c.createdAt) return false;
-    return new Date(c.createdAt) > oneMonthAgo;
-  }).sort((a, b) => new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime());
+  // Free Courses
+  const freeCourses = allCourses.filter(c => {
+    if (c.price === undefined) return false;
+    return c.price === "free" || c.price === 0;
+  });
 
   // Popular Courses
   const popularityMap = new Map<string, number>();
@@ -34,11 +31,11 @@ export default async function AllCoursesPage() {
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-8">All Courses</h1>
         
-        {/* New Courses */}
+        {/* Free Courses */}
         <div className="mb-12">
           <CourseItemLists 
-            courses={newCourses} 
-            title="✨ New Courses" 
+            courses={freeCourses} 
+            title="🎁 Free Courses" 
             hideSearch={true} 
             limit={4} 
             disableSorting={true}
