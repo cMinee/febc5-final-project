@@ -38,15 +38,25 @@ export default function CourseItemLists() {
         return text.replace(regex, `<span class="bg-accent-200 text-accent-800 font-medium">$1</span>`);
     };
 
+
     const handleCategoryChange = (category: string) => {
         setSelectedCategory(selectedCategory === category ? "" : category);
     };
 
+    // เรียงคอร์สตาม createdAt จากใหม่ไปเก่า
+    const sortedCourses = [...onlineCourses].sort((a, b) => {
+        const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+        const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+        return dateB - dateA; // เรียงจากมากไปน้อย (ใหม่ไปเก่า)
+    });
+
     const selectedCourses = selectedCategory
-        ? onlineCourses.filter(course => course.category === selectedCategory)
-        : onlineCourses;
+        ? sortedCourses.filter(course => course.category === selectedCategory)
+        : sortedCourses;
 
     const categories = Array.from(new Set(onlineCourses.map(course => course.category)));
+
+
 
     return (
         <div className="w-full">

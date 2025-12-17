@@ -24,6 +24,7 @@ model Course {
   price       Float
   category    String
   img         String
+  createdAt   DateTime @default(now())
   lessons     Lesson[]  @relation("CourseLessons")
 
   @@map("courses")

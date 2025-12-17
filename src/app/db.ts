@@ -20,6 +20,7 @@ export interface Course {
   price?: number;
   category?: string;
   img?: string;
+  createdAt?: string;
   [key: string]: any;
 }
 
@@ -103,6 +104,8 @@ const createModelHandler = (collectionName: keyof DbSchema) => ({
     const newItem = {
       id: Date.now().toString(),
       ...data,
+      // เพิ่ม createdAt สำหรับ course
+      ...(collectionName === 'courses' ? { createdAt: new Date().toISOString() } : {}),
     };
     // @ts-ignore
     dbData[collectionName].push(newItem);
