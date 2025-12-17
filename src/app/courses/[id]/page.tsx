@@ -127,8 +127,12 @@ export default function CourseDetail() {
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8 max-w-6xl">
+        {/* courses image */}
+        <div>
+          <img src={course.img} alt={course.name} className="w-full h-96 object-cover rounded-t-2xl" />
+        </div>
         {/* Purchase/Start Banner */}
-        <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm mb-8 flex flex-col md:flex-row items-center justify-between gap-4 border border-gray-100 dark:border-gray-800">
+        <div className="bg-white dark:bg-gray-900 rounded-b-2xl p-6 shadow-sm mb-8 flex flex-col md:flex-row items-center justify-between gap-4 border border-gray-100 dark:border-gray-800">
             <div>
                 <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">{course.name}</h1>
                 <p className="text-gray-600 dark:text-gray-300">{course.description}</p>
