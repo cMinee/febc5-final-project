@@ -1,16 +1,4 @@
 {
-  "purchases": [
-    {
-      "id": "1765965786367",
-      "userId": "1",
-      "courseId": "3",
-      "amount": 1200,
-      "method": "credit_card",
-      "status": "completed",
-      "purchasedAt": "2025-12-17T10:03:06.364Z",
-      "slipUrl": null
-    }
-  ],
   "users": [
     {
       "id": "1",
@@ -38,7 +26,7 @@
     {
       "id": "1",
       "name": "คอร์สเรียน React พื้นฐาน",
-      "description": "เรียนรู้การใช้งาน React ตั้งแต่เริ่มต้นจนทำพื้นฐานได้",
+      "description": "เรียนรู้การใช้งาน React ตั้งแต่เริ่มต้นจนทำพื้นฐานได้ สร้างเว็บแอพพลิเคชันได้จริง",
       "price": 1500,
       "category": "Programming",
       "img": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&auto=format&fit=crop&q=60",
@@ -47,7 +35,7 @@
     {
       "id": "2",
       "name": "Advanced Node.js",
-      "description": "เจาะลึกการทำงานของ Node.js และ Backend Development",
+      "description": "เจาะลึกการทำงานของ Node.js และ Backend Development สำหรับผู้ที่มีพื้นฐานแล้ว",
       "price": 2000,
       "category": "Backend",
       "img": "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=800&auto=format&fit=crop&q=60",
@@ -56,20 +44,200 @@
     {
       "id": "3",
       "name": "Basic UI/UX Design",
-      "description": "พื้นฐานการออกแบบหน้าเว็บและแอปพลิเคชัน",
+      "description": "พื้นฐานการออกแบบหน้าเว็บและแอปพลิเคชัน เข้าใจ User Journey และ Wireframe",
       "price": 1200,
       "category": "Design",
-      "img": "https://www.borntodev.com/wp-content/uploads/2019/06/sqr_ux-ui.png",
+      "img": "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&auto=format&fit=crop&q=60",
       "createdAt": "2025-12-16T14:20:00.000Z"
     },
     {
       "id": "1765956525250",
       "name": "Basic Python",
-      "description": "เรียน Python เริ่มต้น",
+      "description": "เรียน Python เริ่มต้น ภาษาที่ได้รับความนิยมสูงสุดในงาน Data และ AI",
       "price": "free",
       "category": "Programming",
-      "img": "https://miro.medium.com/v2/resize:fit:840/1*RJMxLdTHqVBSijKmOO5MAg.jpeg",
+      "img": "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=800&auto=format&fit=crop&q=60",
       "createdAt": "2025-12-17T07:22:05.250Z"
+    },
+    {
+      "id": "1001",
+      "name": "Startup 101: เริ่มต้นธุรกิจ",
+      "description": "เรียนรู้กระบวนการเริ่มต้นธุรกิจ Startup ตั้งแต่ Idea Stage จนถึง MVP",
+      "price": 2500,
+      "category": "Business",
+      "img": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T08:00:00.000Z"
+    },
+    {
+      "id": "1002",
+      "name": "Digital Marketing Strategy",
+      "description": "วางกลยุทธ์การตลาดดิจิทัลให้ครอบคลุมทุกช่องทาง Facebook, Google, TikTok",
+      "price": 1800,
+      "category": "Marketing",
+      "img": "https://images.unsplash.com/photo-1533750516457-a7f992034fec?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T08:05:00.000Z"
+    },
+    {
+      "id": "1003",
+      "name": "Data Analysis with Pandas",
+      "description": "วิเคราะห์ข้อมูลด้วย Python Library ยอดฮิต Pandas จัดการข้อมูลขนาดใหญ่ได้ง่ายๆ",
+      "price": 2200,
+      "category": "Data Science",
+      "img": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T08:10:00.000Z"
+    },
+    {
+      "id": "1004",
+      "name": "Business English Communication",
+      "description": "ภาษาอังกฤษสำหรับสื่อสารธุรกิจ การเขียนอีเมล และการนำเสนองาน",
+      "price": 990,
+      "category": "Language",
+      "img": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T08:15:00.000Z"
+    },
+    {
+      "id": "1005",
+      "name": "Vue.js Essentials",
+      "description": "สร้างเว็บไซด์ด้วย Vue.js Framework ที่เรียนรู้ง่ายและทรงพลัง",
+      "price": 1600,
+      "category": "Programming",
+      "img": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T08:20:00.000Z"
+    },
+    {
+      "id": "1006",
+      "name": "Figma Masterclass",
+      "description": "ออกแบบ UI แบบมือโปรด้วย Figma พร้อมเทคนิคการทำ Auto Layout และ Component",
+      "price": 2900,
+      "category": "Design",
+      "img": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T08:25:00.000Z"
+    },
+    {
+      "id": "1007",
+      "name": "SEO Mastery",
+      "description": "ดันอันดับเว็บไซต์ให้ติดหน้าแรก Google ด้วยเทคนิค SEO สายขาว",
+      "price": 1500,
+      "category": "Marketing",
+      "img": "https://images.unsplash.com/photo-1571721795195-a2ca2d337096?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T08:30:00.000Z"
+    },
+    {
+      "id": "1008",
+      "name": "Machine Learning Basics",
+      "description": "เข้าใจหลักการ Machine Learning และสร้างโมเดลทำนายผลเบื้องต้น",
+      "price": 3500,
+      "category": "Data Science",
+      "img": "https://images.unsplash.com/photo-1527474305487-b87b222841cc?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T08:35:00.000Z"
+    },
+    {
+      "id": "1009",
+      "name": "Intro to Japanese",
+      "description": "ภาษาญี่ปุ่นเบื้องต้นสำหรับผู้เริ่มต้น ตัวอักษร ฮิรางานะ คาตาคานะ และบทสนทนา",
+      "price": "free",
+      "category": "Language",
+      "img": "https://images.unsplash.com/photo-1528164344705-47542687000d?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T08:40:00.000Z"
+    },
+    {
+      "id": "1010",
+      "name": "Flutter Mobile Dev",
+      "description": "สร้างแอพมือถือ iOS และ Android ด้วย Flutter สนุกและได้ผลงานจริง",
+      "price": 2400,
+      "category": "Programming",
+      "img": "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T08:45:00.000Z"
+    },
+        {
+      "id": "1011",
+      "name": "Project Management Professional",
+      "description": "บริหารโครงการอย่างมืออาชีพ ด้วย Agile และ Scrum Framework",
+      "price": 2000,
+      "category": "Business",
+      "img": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T09:00:00.000Z"
+    },
+    {
+      "id": "1012",
+      "name": "Content Creation for Social Media",
+      "description": "สร้างคอนเทนต์ให้ปัง ทั้งกราฟิกและวิดีโอ สำหรับ Facebook, TikTok, IG",
+      "price": 1400,
+      "category": "Marketing",
+      "img": "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T09:05:00.000Z"
+    },
+    {
+      "id": "1013",
+      "name": "SQL for Beginners",
+      "description": "จัดการฐานข้อมูลด้วย SQL ตั้งแต่ Select, Join ไปจนถึงการออกแบบ Database",
+      "price": 1100,
+      "category": "Data Science",
+      "img": "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T09:10:00.000Z"
+    },
+    {
+      "id": "1014",
+      "name": "Korean for Travelers",
+      "description": "ภาษาเกาหลีเพื่อการท่องเที่ยว เรียนรู้วลีสำคัญ สั่งอาหาร ถามทาง ช้อปปิ้ง",
+      "price": 800,
+      "category": "Language",
+      "img": "https://images.unsplash.com/photo-1538485399081-7191377e8241?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T09:15:00.000Z"
+    },
+    {
+      "id": "1015",
+      "name": "Go Language",
+      "description": "เขียนโปรแกรมด้วย Go ภาษาที่ทำงานเร็ว แรง และรองรับ Concurrency ได้ดีเยี่ยม",
+      "price": 1800,
+      "category": "Programming",
+      "img": "https://images.unsplash.com/photo-1535551951406-a19828b8a76b?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T09:20:00.000Z"
+    },
+    {
+      "id": "1016",
+      "name": "Adobe Illustrator Crash Course",
+      "description": "วาดภาพเวกเตอร์ ออกแบบโลโก้ และงานกราฟิกดีไซน์ด้วย Illustrator",
+      "price": 1300,
+      "category": "Design",
+      "img": "https://images.unsplash.com/photo-1626785774573-4b799314346d?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T09:25:00.000Z"
+    },
+    {
+      "id": "1017",
+      "name": "Cybersecurity Basics",
+      "description": "พื้นฐานความปลอดภัยทางไซเบอร์ การป้องกันการโจมตี และการรักษาข้อมูล",
+      "price": 1600,
+      "category": "Technology",
+      "img": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T09:30:00.000Z"
+    },
+    {
+      "id": "1018",
+      "name": "Cloud Computing with AWS",
+      "description": "รู้จัก Cloud Computing และเริ่มต้นใช้งาน AWS Services ต่างๆ",
+      "price": 2100,
+      "category": "Technology",
+      "img": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T09:35:00.000Z"
+    },
+    {
+      "id": "1019",
+      "name": "Financial Literacy",
+      "description": "วางแผนการเงินส่วนบุคคล การลงทุนเบื้องต้น และการจัดการหนี้สิน",
+      "price": "free",
+      "category": "Business",
+      "img": "https://images.unsplash.com/photo-1579621970563-ebec7560eb3e?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T09:40:00.000Z"
+    },
+    {
+      "id": "1020",
+      "name": "Podcast Production",
+      "description": "สร้างสรรค์ Podcast ของตัวเอง ตั้งแต่การอัดเสียง ตัดต่อ จนถึงการเผยแพร่",
+      "price": 1200,
+      "category": "Marketing",
+      "img": "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2025-12-17T09:45:00.000Z"
     }
   ],
   "lessons": [
@@ -168,6 +336,58 @@
       "videoUrl": "https://www.w3schools.com/html/movie.mp4",
       "courseId": "1765956525250",
       "duration": 15
+    },
+    { "id": "1001-1", "title": "Intro to Startups", "content": "What is a startup? Growth vs SME.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1001", "duration": 10 },
+    { "id": "1001-2", "title": "Lean Canvas", "content": "Validate your business idea quickly.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1001", "duration": 15 },
+    { "id": "1002-1", "title": "Digital Landscape", "content": "Overview of digital marketing channels.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1002", "duration": 12 },
+    { "id": "1002-2", "title": "Target Audience", "content": "Defining your customer persona.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1002", "duration": 18 },
+    { "id": "1003-1", "title": "Installing Pandas", "content": "Setup Anaconda and Jupyter Notebook.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1003", "duration": 8 },
+    { "id": "1003-2", "title": "DataFrames 101", "content": "Loading and inspecting data.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1003", "duration": 20 },
+    { "id": "1004-1", "title": "Email Etiquette", "content": "Writing professional emails.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1004", "duration": 15 },
+    { "id": "1004-2", "title": "Presentation Skills", "content": "Structuring your presentation.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1004", "duration": 15 },
+    { "id": "1005-1", "title": "Vue Instance", "content": "Creating your first Vue app.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1005", "duration": 10 },
+    { "id": "1005-2", "title": "Directives", "content": "v-if, v-for, v-bind.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1005", "duration": 12 },
+    { "id": "1006-1", "title": "Figma Interface", "content": "Tools and panels overview.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1006", "duration": 10 },
+    { "id": "1006-2", "title": "Auto Layout", "content": "Building responsive components.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1006", "duration": 25 },
+    { "id": "1007-1", "title": "Keyword Research", "content": "Finding the right keywords.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1007", "duration": 15 },
+    { "id": "1007-2", "title": "On-Page SEO", "content": "Optimizing content and meta tags.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1007", "duration": 20 },
+    { "id": "1008-1", "title": "What is ML?", "content": "Supervised vs Unsupervised learning.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1008", "duration": 12 },
+    { "id": "1008-2", "title": "Linear Regression", "content": "Predicting values with simple regression.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1008", "duration": 22 },
+    { "id": "1009-1", "title": "Hiragana Basics", "content": "Reading and writing first 10 characters.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1009", "duration": 30 },
+    { "id": "1009-2", "title": "Greetings", "content": "Common daily greetings.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1009", "duration": 10 },
+    { "id": "1010-1", "title": "Flutter Widgets", "content": "Stateless vs Stateful widgets.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1010", "duration": 20 },
+    { "id": "1010-2", "title": "Layouts in Flutter", "content": "Row, Column, and Stack.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1010", "duration": 18 },
+    { "id": "1011-1", "title": "Agile Manifesto", "content": "Values and principles of Agile.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1011", "duration": 14 },
+    { "id": "1011-2", "title": "Scrum Roles", "content": "Product Owner, Scrum Master, Team.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1011", "duration": 16 },
+    { "id": "1012-1", "title": "Video Hooks", "content": "Grabbing attention in 3 seconds.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1012", "duration": 8 },
+    { "id": "1012-2", "title": "Canva Basics", "content": "Designing posts quickly.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1012", "duration": 20 },
+     { "id": "1013-1", "title": "SELECT statement", "content": "Querying data from tables.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1013", "duration": 10 },
+    { "id": "1013-2", "title": "WHERE clause", "content": "Filtering results.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1013", "duration": 12 },
+    { "id": "1014-1", "title": "Ordering Food", "content": "Essential phrases for restaurants.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1014", "duration": 15 },
+    { "id": "1014-2", "title": "Shopping", "content": "Asking for prices and sizes.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1014", "duration": 15 },
+    { "id": "1015-1", "title": "Go Syntax", "content": "Variables, types, and loops.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1015", "duration": 15 },
+    { "id": "1015-2", "title": "Goroutines", "content": "Introduction to concurrency.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1015", "duration": 18 },
+    { "id": "1016-1", "title": "Pen Tool Mastery", "content": "Drawing complex shapes.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1016", "duration": 25 },
+    { "id": "1016-2", "title": "Logo Design", "content": "Creating a simple logo.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1016", "duration": 20 },
+    { "id": "1017-1", "title": "Password Security", "content": "Creating strong passwords.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1017", "duration": 10 },
+    { "id": "1017-2", "title": "Phishing", "content": "Identifying fake emails and sites.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1017", "duration": 12 },
+    { "id": "1018-1", "title": "AWS Console", "content": "Navigating the dashboard.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1018", "duration": 15 },
+    { "id": "1018-2", "title": "EC2 Basics", "content": "Launching your first server.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1018", "duration": 20 },
+    { "id": "1019-1", "title": "Budgeting", "content": "Tracking income and expenses.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1019", "duration": 15 },
+    { "id": "1019-2", "title": "Saving Goals", "content": "Setting SMART financial goals.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1019", "duration": 15 },
+    { "id": "1020-1", "title": "Microphone Choice", "content": "Selecting the right gear.", "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4", "courseId": "1020", "duration": 10 },
+    { "id": "1020-2", "title": "Audacity Basics", "content": "Recording and editing audio.", "videoUrl": "https://www.w3schools.com/html/movie.mp4", "courseId": "1020", "duration": 20 }
+  ],
+  "purchases": [
+    {
+      "id": "1765965786367",
+      "userId": "1",
+      "courseId": "3",
+      "amount": 1200,
+      "method": "credit_card",
+      "status": "completed",
+      "purchasedAt": "2025-12-17T10:03:06.364Z",
+      "slipUrl": null
     }
   ],
   "progress": [
