@@ -47,7 +47,7 @@
       "description": "พื้นฐานการออกแบบหน้าเว็บและแอปพลิเคชัน",
       "price": 1200,
       "category": "Design",
-      "img": "https://images.unsplash.com/photo-1586717791821-3f44a5638d48?w=800&auto=format&fit=crop&q=60",
+      "img": "https://www.borntodev.com/wp-content/uploads/2019/06/sqr_ux-ui.png",
       "createdAt": "2025-12-16T14:20:00.000Z"
     },
     {
@@ -84,6 +84,78 @@
       "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4",
       "courseId": "1",
       "duration": 20
+    },
+    {
+      "id": "201",
+      "title": "Node.js Runtime Deep Dive",
+      "content": "ทำความเข้าใจ Event Loop, call stack และการจัดการ I/O ของ Node.js",
+      "videoUrl": "https://www.w3schools.com/html/movie.mp4",
+      "courseId": "2",
+      "duration": 18
+    },
+    {
+      "id": "202",
+      "title": "Express Routing Patterns",
+      "content": "ออกแบบ REST API ด้วย Express, middleware และการจัดโครงสร้างโปรเจกต์",
+      "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4",
+      "courseId": "2",
+      "duration": 22
+    },
+    {
+      "id": "203",
+      "title": "Async และ Error Handling",
+      "content": "ใช้งาน Promise, async/await และการจัดการ error ในงาน backend",
+      "videoUrl": "https://www.w3schools.com/html/movie.mp4",
+      "courseId": "2",
+      "duration": 16
+    },
+    {
+      "id": "301",
+      "title": "Design Foundations",
+      "content": "หลักการพื้นฐานด้าน UX/UI เช่น usability, accessibility และการตั้ง goal",
+      "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4",
+      "courseId": "3",
+      "duration": 12
+    },
+    {
+      "id": "302",
+      "title": "Wireframes และ User Flows",
+      "content": "สร้าง low-fidelity wireframes พร้อม mapping user journey และ flow",
+      "videoUrl": "https://www.w3schools.com/html/movie.mp4",
+      "courseId": "3",
+      "duration": 14
+    },
+    {
+      "id": "303",
+      "title": "Visual Hierarchy & Layout",
+      "content": "ใช้สี, spacing, typography เพื่อสร้างลำดับความสำคัญบนหน้าจอ",
+      "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4",
+      "courseId": "3",
+      "duration": 13
+    },
+    {
+      "id": "401",
+      "title": "เริ่มต้นกับ Python",
+      "content": "ติดตั้ง Python, ทำความรู้จัก syntax พื้นฐานและการรันสคริปต์แรก",
+      "videoUrl": "https://www.w3schools.com/html/movie.mp4",
+      "courseId": "1765956525250",
+      "duration": 11
+    },
+    {
+      "id": "402",
+      "title": "โครงสร้างข้อมูลพื้นฐาน",
+      "content": "ใช้งาน list, dict, set, tuple พร้อมตัวอย่างการประยุกต์ใช้",
+      "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4",
+      "courseId": "1765956525250",
+      "duration": 17
+    },
+    {
+      "id": "403",
+      "title": "ไฟล์และโมดูล",
+      "content": "อ่าน/เขียนไฟล์, ใช้งานโมดูลมาตรฐาน และการจัดโครงสร้างโปรเจกต์",
+      "videoUrl": "https://www.w3schools.com/html/movie.mp4",
+      "courseId": "1765956525250",
+      "duration": 15
     }
   ],
   "progress": [
