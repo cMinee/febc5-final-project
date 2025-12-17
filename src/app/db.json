@@ -1,4 +1,16 @@
 {
+  "purchases": [
+    {
+      "id": "1765965786367",
+      "userId": "1",
+      "courseId": "3",
+      "amount": 1200,
+      "method": "credit_card",
+      "status": "completed",
+      "purchasedAt": "2025-12-17T10:03:06.364Z",
+      "slipUrl": null
+    }
+  ],
   "users": [
     {
       "id": "1",
@@ -196,6 +208,12 @@
       "userId": "1765954816220",
       "courseId": "2",
       "savedAt": "2025-12-17T09:39:54.688Z"
+    },
+    {
+      "id": "1765965789471",
+      "userId": "1",
+      "courseId": "3",
+      "savedAt": "2025-12-17T10:03:09.471Z"
     }
   ]
 }

@@ -48,12 +48,25 @@ export interface SavedCourse {
   [key: string]: any;
 }
 
+export interface Purchase {
+  id: string;
+  userId: string;
+  courseId: string;
+  amount: number;
+  method: 'credit_card' | 'qr_code';
+  status: 'pending' | 'completed';
+  purchasedAt: string;
+  slipUrl?: string; // for QR code
+  [key: string]: any;
+}
+
 interface DbSchema {
   users: User[];
   courses: Course[];
   lessons: Lesson[];
   progress: Progress[];
   savedCourses: SavedCourse[];
+  purchases: Purchase[];
 }
 
 // ฟังก์ชันอ่านข้อมูล
@@ -158,4 +171,5 @@ export const db = {
   lesson: createModelHandler('lessons'),
   progress: createModelHandler('progress'),
   savedCourse: createModelHandler('savedCourses'),
+  purchase: createModelHandler('purchases'),
 };
