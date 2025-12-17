@@ -13,13 +13,20 @@
       "password": "P@ssw0rd2025",
       "name": "May",
       "role": "user"
+    },
+    {
+      "id": "admin001",
+      "email": "admin@coursehub.com",
+      "password": "Admin@2025",
+      "name": "Admin User",
+      "role": "admin"
     }
   ],
   "courses": [
     {
       "id": "1",
       "name": "คอร์สเรียน React พื้นฐาน",
-      "description": "เรียนรู้การใช้งาน React ตั้งแต่เริ่มต้น",
+      "description": "เรียนรู้การใช้งาน React ตั้งแต่เริ่มต้นจนทำพื้นฐานได้",
       "price": 1500,
       "category": "Programming",
       "img": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&auto=format&fit=crop&q=60"
@@ -39,6 +46,14 @@
       "price": 1200,
       "category": "Design",
       "img": "https://images.unsplash.com/photo-1586717791821-3f44a5638d48?w=800&auto=format&fit=crop&q=60"
+    },
+    {
+      "id": "1765956525250",
+      "name": "Basic Python",
+      "description": "เรียน Python เริ่มต้น",
+      "price": 500,
+      "category": "Programming",
+      "img": "https://miro.medium.com/v2/resize:fit:840/1*RJMxLdTHqVBSijKmOO5MAg.jpeg"
     }
   ],
   "lessons": [
@@ -73,6 +88,14 @@
       "userId": "1",
       "lessonId": "101",
       "completed": true
+    }
+  ],
+  "savedCourses": [
+    {
+      "id": "1765956325371",
+      "userId": "1765954816220",
+      "courseId": "1",
+      "savedAt": "2025-12-17T07:25:25.371Z"
     }
   ]
 }
