@@ -10,6 +10,7 @@ type Lesson = {
   content: string;
   videoUrl: string;
   courseId: string;
+  duration?: number;
 };
 
 type Progress = {
@@ -20,6 +21,7 @@ type Progress = {
 };
 
 function slugify(text: string) {
+  if (!text) return "";
   return text.toLowerCase().replace(/\s+/g, "-");
 }
 
@@ -27,7 +29,8 @@ export default function LearnPage() {
   const params = useParams();
   const router = useRouter();
   const courseId = params?.id as string;
-  const slugTitle = decodeURIComponent((params?.slug as string)?.toLowerCase().replace(/-/g, " "));
+  const slugParam = params?.slug as string | undefined;
+  const slugTitle = slugParam ? decodeURIComponent(slugParam.toLowerCase().replace(/-/g, " ")) : "";
 
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [allLessons, setAllLessons] = useState<Lesson[]>([]);
@@ -274,7 +277,6 @@ export default function LearnPage() {
             </div>
           </div> 
         </div>
-      </div>
     </Layout>
   );
 }

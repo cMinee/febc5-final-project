@@ -60,5 +60,12 @@
       "duration": 20
     }
   ],
-  "progress": []
+  "progress": [
+    {
+      "id": "1765951110177",
+      "userId": "1",
+      "lessonId": "101",
+      "completed": true
+    }
+  ]
 }
